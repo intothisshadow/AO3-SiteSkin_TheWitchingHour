@@ -1,4 +1,4 @@
-# AO3 Site Skin: Witching Hour
+# AO3 Site Skin: The Witching Hour
 
 Deep midnight navy bleeding into vivid amethyst, softening through orchid pink down to a bare, almost-blush white. It feels like the sky just after a storm clears at dusk, or the moment before something magical happens.
 
@@ -42,4 +42,7 @@ https://github.com/ZerafinaCSS/ | https://archiveofourown.org/works/57331222
 
 # SCREENSHOTS
 
-![image](https://github.com/intothisshadow/AO3-SiteSkin_RosewaterTeal/blob/main/images/screenshot1.jpg)
+![image](https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_TheWitchingHour/refs/heads/main/images/screenshot1.jpg)
+![image](https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_TheWitchingHour/refs/heads/main/images/screenshot2.jpg)
+![image](https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_TheWitchingHour/refs/heads/main/images/screenshot3.jpg)
+![image](https://raw.githubusercontent.com/intothisshadow/AO3-SiteSkin_TheWitchingHour/refs/heads/main/images/screenshot4.jpg)

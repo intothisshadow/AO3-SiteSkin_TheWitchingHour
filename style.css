@@ -1,5 +1,34 @@
 /* ============================================
-   AO3 Site Skin — Witching Hour
+Theme Name: The Witching Hour - AO3 Site Skin
+Author: intothisshadow
+Author URI: https://www.so-obsessed.com
+
+==============================================================
+LINKS & CREDITS
+==============================================================
+
+CODE & INSTRUCTIONS:
+
+- Code (Github):       https://github.com/intothisshadow/AO3-SiteSkin_TheWitchingHour
+- Instructions (AO3):  
+
+FONTS:
+
+- This theme uses Playfair Display, which is included in the "fonts" folder or you can download it at https://fonts.google.com/specimen/Playfair+Display for installation on your system.
+
+CREDITS:
+
+- AO3 logo upgrade and colorization code (found in "Replace the AO3 Icons 2.0 [Site Skin]") by ZerafinaCSS, (Zerafina) 
+https://github.com/ZerafinaCSS/ | https://archiveofourown.org/users/Zerafina/pseuds/ZerafinaCSS
+
+FIND ME ON:
+
+- Github:              https://github.com/intothisshadow
+- AO3:                 https://archiveofourown.org/users/intothisshadow/
+- Website:             https://www.so-obsessed.com
+============================================ */
+
+/* ============================================
    Colors:
      #181830  deep midnight navy (darkest bg)
      #8B2DA0  vivid amethyst (primary accent)
@@ -41,8 +70,6 @@ body {
   font-size: 16px !important;  /* Base size — readable on mobile without being oversized on desktop */
   text-align: left !important;
 }
-
-
 
 /* Mobile safety net — prevents any element from causing horizontal scroll.
    Images and videos are capped at their container width.
