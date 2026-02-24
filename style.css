@@ -73,9 +73,16 @@ body {
 
 /* Mobile safety net — prevents any element from causing horizontal scroll.
    Images and videos are capped at their container width.
-   Tables scroll horizontally within their container rather than breaking layout. */
-img, video, iframe, object, embed {
+   Tables scroll horizontally within their container rather than breaking layout.
+   Note: iframes are intentionally excluded from height:auto — applying it to
+   all iframes collapses the TinyMCE rich text editor iframe on works/new. */
+img, video, object, embed {
   height: auto !important;
+  max-width: 100% !important;
+}
+
+/* Keep embedded iframes from overflowing on mobile without forcing height:auto. */
+iframe {
   max-width: 100% !important;
 }
 
