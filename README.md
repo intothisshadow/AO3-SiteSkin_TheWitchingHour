@@ -32,7 +32,11 @@ This skin comes with a mobile add-on that makes the skin look better on phones a
 
 1. Create a new site skin
 2. Copy/paste the code from *style_mobile.css*
-3. In the Media section, select: `only screen and (max-width: 42em)`
+3. In the Media section, select:
+   1. Handheld
+   2.  only screen and (max-width: 42em) and 
+   3. only screen and (max-width: 62em)
+
 4. Save and Use.
 
 # FONT

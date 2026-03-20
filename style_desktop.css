@@ -2409,10 +2409,10 @@ dl.work.meta.group dd.stats dl.stats dd {
 }
 
 .preface.group .notes.module blockquote.userstuff,
-.end.notes.module blockquote.userstuff {
+.end.notes.module blockquote.userstuff,div.preface .associations {
   background: none !important;
   border: none !important;
-  color: #e8dff5 !important;
+  color: var(--text-on-dark) !important;
   font-size: 0.9em !important;
   line-height: 1.6 !important;
   margin: 0 !important;
