@@ -1,0 +1,4305 @@
+/* ============================================
+ * Theme Name: The Witching Hour - AO3 Site Skin (v2)
+ * Author: intothisshadow
+ * Author URI: https://www.so-obsessed.com
+ *
+ * ==============================================================
+ * LINKS & CREDITS
+ * ==============================================================
+ *
+ * CODE & INSTRUCTIONS:
+ *
+ * - Code (Github):       https://github.com/intothisshadow/AO3-SiteSkin_TheWitchingHour
+ * - Instructions (AO3):  https://archiveofourown.org/works/80186871
+ *
+ * FONTS:
+ *
+ * - This theme uses Playfair Display, which can be downloaded at
+ *   https://fonts.google.com/specimen/Playfair+Display for installation on your system.
+ *
+ * CREDITS:
+ *
+ * - Replace the AO3 Icons 2.0 by ZerafinaCSS
+ * https://github.com/ZerafinaCSS/ | https://archiveofourown.org/users/Zerafina/pseuds/ZerafinaCSS
+ *
+ * FIND ME ON:
+ *
+ * - Github:              https://github.com/intothisshadow
+ * - AO3:                 https://archiveofourown.org/users/intothisshadow/
+ * - Website:             https://www.so-obsessed.com
+ *
+ * ==============================================================
+ * CHANGE LOG
+ * ==============================================================
+ *
+ * v2.0 — 2026-03-20
+ *   Mobile skin add-on.
+ *   Code completely refactored and expanded. Key changes from v1:
+ *   - Full CSS custom properties (:root) system for colors,
+ *     borders, radii, buttons and tag pills
+ *   - Typography overhauled: Playfair Display throughout,
+ *     font-smoothing, proper italic (not oblique), line-height
+ *   - Header and greeting: gradient pill buttons with hover states
+ *   - Dashboard sidebar: light lilac theme matching desktop
+ *   - New/edit site skin page: parent dropdown cut off fix
+ *   - Work blurb cards: header band layout, required-tags icons,
+ *     datetime positioning, fandom/byline stacking
+ *   - Work page: "by Author" byline, prose font-weight reduced
+ *   - User profile: flex header layout, square icons, lilac banner
+ *   - Notices: deepened green success, warning hover updated
+ *   - Full redundancy audit: zero duplicate selectors/properties
+ *
+ * v1.0 — 2026-02-20
+ *    Skin published.
+ * ==============================================================
+
+   HOW TO USE:
+   1. Edit the :root block to set your colors,
+      border radii, and surface backgrounds.
+   2. Find the two font rules marked FONT: BODY
+      and FONT: UI and update those font stacks.
+
+   NOTE: AO3's CSS validator does not allow CSS
+   custom properties (variables) for font-family
+   values or inside url() / background shorthand
+   with url(). Those are hardcoded per the rules
+   below. Everything else uses variables.
+
+   Table of contents:
+     0.  Variables (EDIT HERE)
+     1.  Global / Reset
+     2.  Typography
+     3.  Links
+     4.  Header & Navigation
+     5.  Greeting / User Menu
+     6.  Sidebar & Dashboard
+     7.  Buttons & Actions
+     8.  Forms & Inputs
+     9.  Tag System
+    10.  Work Blurb Cards
+    11.  Work Page
+    12.  Comments
+    13.  Notices & Alerts
+    14.  Front Page (Splash)
+    15.  Index Pages (Media, Fandoms, Collections)
+    16.  Profile & Stats Pages
+    17.  User Profile
+    18.  Reading History
+    19.  Miscellaneous (Scrollbar, Selection, Pre)
+    20.  Footer
+    21.  Replace the AO3 Icons 2.0 - default color scheme
+   ============================================ */
+
+
+/* ============================================
+   0. VARIABLES — EDIT HERE
+   ============================================ */
+
+:root {
+
+  /* ── Palette: The Witching Hour ─────────────────────────────────────────────
+     Source skin: AO3 Site Skin — The Witching Hour
+     Base:    #F2EBF0 · #fdf8fe · #f5e8f8 · #ede0ee
+     Primary: #8B2DA0  Mid: #9e35b5  Dark: #6a1a7a
+     Darks:   #181830 / #2a1545 / #0d0820
+     Text:    #2a103a   Muted: #a050b8 / #7a3090
+     Fic title accent: #D97EC8 / #c468b5
+     Fandom tag: #e8a0c0    Orchid sidebar: #D97EC8
+  ─────────────────────────────────────────────────────────────────────── */
+
+  /* --- Core palette --- */
+  --accent-1:   #8B2DA0;   /* Vivid amethyst — buttons, headings, active  */
+  --accent-2:   #D97EC8;   /* Orchid pink — borders, hover highlights            */
+  --light-bg:   #f5e8f8;   /* Soft lilac — page background midpoint */
+
+  /* --- Derived shades --- */
+  --accent-1-dark:   #6a1a7a;               /* Deeper amethyst for hover/focus  */
+  --accent-1-mid:    #9e35b5;               /* Mid amethyst — gradient start/stops      */
+  --accent-1-light:  #a050b8;               /* Soft amethyst for visited/bylines  */
+  --accent-2-faint:  rgba(217,126,200,0.18);/* Very light tint for row hovers       */
+
+  /* --- Text --- */
+  --text:         #2a103a;   /* Deep plum — main body text          */
+  --text-muted:   #7a3090;   /* Mid orchid-grey — secondary/muted text              */
+  --text-on-dark: #F2EBF0;   /* Bare blush white on dark surfaces                  */
+  --text-on-light: #2a103a;  /* Deep plum — text on light/card backgrounds         */
+
+  /* --- Borders --- */
+  --border:        #D97EC8;               /* Mirror of --accent-2; keep in sync        */
+  --border-light:  rgba(217,126,200,0.3);
+  --border-width:  3px;                   /* Shared border thickness (header, banner)  */
+  --icon-border1:  #D97EC8;              /* Icon border — Zerafina RSS icon            */
+
+  /* --- Surface backgrounds --- */
+  --card-bg:   #ffffff;
+  --panel-bg:  #f5e8f8;    /* Soft lilac panel background                     */
+
+  /* --- Tag pill colours — EDIT HERE to recolour tag pills ---
+     Each type: gradient start/end, border, text, and hover equivalents  */
+
+  /* Warning — vivid amethyst */
+  --tag-warning-grad-start:       #8B2DA0;
+  --tag-warning-grad-end:         #c0107a;
+  --tag-warning-border:           #7a0050;
+  --tag-warning-text:             #ffffff;
+  --tag-warning-hover-grad-start: #a835be;
+  --tag-warning-hover-grad-end:   #e0207a;
+  --tag-warning-hover-border:     #9a1060;
+  --tag-warning-hover-text:       #ffffff;
+
+  /* Category — orchid pink (light) */
+  --tag-category-grad-start:       #f0d0ee;
+  --tag-category-grad-end:         #e8c0e4;
+  --tag-category-border:           #D97EC8;
+  --tag-category-text:             #6a1a7a;
+  --tag-category-hover-grad-start: #D97EC8;
+  --tag-category-hover-grad-end:   #c468b5;
+  --tag-category-hover-border:     #8B2DA0;
+  --tag-category-hover-text:       #ffffff;
+
+  /* Fandom — blush rose */
+  --tag-fandom-grad-start:       #fce8f0;
+  --tag-fandom-bg:               #e8a0c0;   /* also used in section 10 blurb cards */
+  --tag-fandom-text:             #8a2050;
+  --tag-fandom-hover-grad-start: #e8a0c0;
+  --tag-fandom-hover-grad-end:   #d888ac;
+  --tag-fandom-hover-border:     #8a2050;
+  --tag-fandom-hover-text:       #ffffff;
+
+  /* Character — soft lilac */
+  --tag-character-grad-start:       #ede8f8;
+  --tag-character-grad-end:         #e0d5f5;
+  --tag-character-border:           #b8a0e0;
+  --tag-character-text:             #4a2888;
+  --tag-character-hover-grad-start: #b8a0e0;
+  --tag-character-hover-grad-end:   #a088d0;
+  --tag-character-hover-border:     #4a2888;
+  --tag-character-hover-text:       #ffffff;
+
+  /* Relationship — dusty mauve */
+  --tag-relationship-grad-start:       #f5e8f0;
+  --tag-relationship-grad-end:         #ecd8e8;
+  --tag-relationship-border:           #c898b8;
+  --tag-relationship-text:             #7a2060;
+  --tag-relationship-hover-grad-start: #c898b8;
+  --tag-relationship-hover-grad-end:   #b880a4;
+  --tag-relationship-hover-border:     #7a2060;
+  --tag-relationship-hover-text:       #ffffff;
+
+  /* Freeform — pale lavender mist */
+  --tag-freeform-grad-start:       #f5e8f8;
+  --tag-freeform-grad-end:         #edd8f0;
+  --tag-freeform-border:           #d0a8e0;
+  --tag-freeform-text:             #8B2DA0;
+  --tag-freeform-hover-grad-start: #d0a8e0;
+  --tag-freeform-hover-grad-end:   #bc90cc;
+  --tag-freeform-hover-border:     #8B2DA0;
+  --tag-freeform-hover-text:       #ffffff;
+
+  /* --- Button / action amethyst gradient (section 7) --- EDIT HERE to recolour all buttons at once ---
+     Base gradient:  --btn-start -> --btn-mid -> --btn-end
+     Hover gradient: --btn-hover-start -> --btn-hover-mid -> --btn-hover-end
+     Dark gradient (sidebar hover, form legend): --btn-dark-start -> --btn-end -> --btn-dark-end  */
+  --btn-start:        #e89fda;   /* Light orchid — gradient left  */
+  --btn-mid:          #D97EC8;   /* Orchid pink  — gradient centre */
+  --btn-end:          #8B2DA0;   /* Amethyst — gradient right */
+  --btn-border:       rgba(217,126,200,0.45);   /* Soft orchid border on base state  */
+  --btn-hover-start:  #181830;   /* Deep midnight — hover gradient left  */
+  --btn-hover-mid:    #2a1545;   /* Dark plum   — hover gradient centre */
+  --btn-hover-end:    #a040b8;   /* Lighter amethyst — hover gradient right */
+  --btn-hover-border: #D97EC8;   /* Orchid border on hover state   */
+  --btn-dark-start:   #2a1545;   /* Dark plum — sidebar/legend gradient left  */
+  --btn-dark-end:     #D97EC8;   /* Orchid — sidebar/legend gradient right */
+
+  /* --- Border radii --- */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-pill: 12px;
+  --radius-full: 20px;
+
+}
+
+
+/* ============================================
+   1. GLOBAL / RESET
+   ============================================ */
+
+/* Full-page gradient — blush top fading to soft lilac at the bottom.
+   `fixed` keeps it stationary while content scrolls.
+   Font smoothing switches to antialiased for crisper Playfair Display rendering. */
+body {
+  background: linear-gradient(to bottom, #F2EBF0 0%, #ede0ee 30%, #f5edf8 60%, #f0e8f5 100%) fixed !important;
+  color: var(--text) !important;
+  font-size: 19px !important;
+  line-height: 1.6 !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  -webkit-font-smoothing: antialiased !important;
+  text-align: left !important;
+}
+
+/* Remove extra top space AO3 adds above the main content area */
+#main {
+  margin-top: auto !important;
+  padding-top: 0 !important;
+}
+
+/* Override AO3's default grey box-shadow on .wrapper */
+.wrapper {
+  box-shadow: none !important;
+}
+
+/* Prevent horizontal overflow on mobile.
+   Note: iframes excluded from height:auto — it collapses the TinyMCE
+   rich text editor iframe on works/new. */
+img, video, object, embed {
+  height: auto !important;
+  max-width: 100% !important;
+}
+iframe {
+  max-width: 100% !important;
+}
+
+/* Wide tables scroll horizontally rather than breaking the layout */
+table {
+  display: block !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  word-break: break-word !important;
+}
+
+/* FONT: BODY — edit this font stack directly (variables not allowed here) */
+body, body * {
+  font-family: 'Playfair Display', Georgia, "Times New Roman", serif !important;
+}
+
+/* FONT: UI — edit this font stack directly (variables not allowed here) */
+input, select, textarea, button, .actions, pre, code {
+  font-family: 'Playfair Display', Georgia, "Times New Roman", serif !important;
+}
+
+/* Thicker double-line hr to match the skin's heavier visual weight */
+hr {
+  border: 0 !important;
+  border-bottom: 3px double var(--accent-2) !important;
+}
+
+strong, b { font-weight: bold !important; }
+em, cite, i { font-style: italic !important; }
+
+/* Text-selection highlight — orchid wash with dark text for readability */
+::selection {
+  background: rgba(217,126,200,0.35) !important;
+  color: #2a103a !important;
+}
+
+
+/* ============================================
+   2. TYPOGRAPHY
+   ============================================ */
+
+#main h1, #content h1 { font-size: 2.5em !important; }
+#main h2, #content h2 { font-size: 2em !important; }
+#main h3, #content h3 { font-size: 1.5em !important; }
+#main h4, #content h4 { font-size: 1.25em !important; }
+#main h5, #content h5 { font-size: 1.1em !important; }
+#main h6, #content h6 { font-size: 0.95em !important; }
+p                      { font-size: 1em !important; }
+small                  { font-size: 0.8em !important; }
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text) !important;
+  font-weight: 600 !important;
+  overflow-wrap: break-word !important;
+}
+
+/* .heading alone — no color set here so AO3's own context-specific styles can show through */
+.heading {
+  font-weight: 600 !important;
+  overflow-wrap: break-word !important;
+}
+
+/* Named .heading elements on h2/h3/h4 get an orchid underline. */
+h2.heading, h3.heading, h4.heading {
+  border-bottom: 1px solid #e8c8e8 !important;
+  color: var(--accent-1) !important;
+  padding-bottom: 4px !important;
+}
+
+/* Profile page section headings */
+#main .listbox.group > h3.heading {
+  border-bottom: none !important;
+  color: var(--text-on-dark) !important;
+}
+
+/* AO3 landmark headings — collapse visually, keep in DOM */
+h3.landmark.heading,
+h4.landmark.heading,
+h5.landmark.heading,
+h6.landmark.heading {
+  background: transparent !important;
+  border: none !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+/* Author name links — italic orchid across all contexts. */
+a[rel="author"],
+a[rel="author"]:link,
+.byline a,
+.byline a:link {
+  border-bottom: none !important;
+  color: var(--accent-1-mid) !important;
+  font-style: italic !important;
+}
+
+a[rel="author"]:visited,
+.byline a:visited {
+  border-bottom: none !important;
+  color: var(--accent-1-dark) !important;
+  font-style: italic !important;
+}
+
+a[rel="author"]:hover,
+.byline a:hover {
+  color: var(--btn-dark-end) !important;
+  text-decoration: underline !important;
+}
+
+
+/* ============================================
+   3. LINKS
+   ============================================ */
+
+/* Default link appearance — orchid underline. */
+a, a:link {
+  border-bottom: 1px solid var(--accent-2) !important;
+  color: var(--accent-1) !important;
+  text-decoration: none !important;
+}
+
+a:visited {
+  border-bottom: 1px dashed var(--accent-2) !important;
+  color: var(--accent-1-light) !important;
+  text-decoration: none !important;
+}
+
+a:hover, a:focus {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+a:active, button:focus {
+  outline: 1px dotted var(--accent-1) !important;
+}
+
+/* Header/greeting links get hover styling from the button-gradient rules in
+   sec 4/5, not the global underline — suppress it here to avoid the clash. */
+#header a:hover, #header a:focus,
+#greeting a:hover, #greeting a:focus {
+  text-decoration: none !important;
+}
+
+/* Links inside card headings */
+.heading a, .heading a:visited,
+h4.heading a, h4.heading a:link, h4.heading a:visited {
+  color: var(--accent-1) !important;
+  font-weight: bold !important;
+}
+
+/* Author links inside any .heading — override the rule above */
+.heading a[rel="author"],
+.heading a[rel="author"]:link,
+h3.byline.heading a,
+h3.byline.heading a:link,
+h4.heading a[rel="author"],
+h4.heading a[rel="author"]:link {
+  color: var(--accent-1-mid) !important;
+  font-style: italic !important;
+}
+
+.heading a[rel="author"]:visited,
+h3.byline.heading a:visited,
+h4.heading a[rel="author"]:visited {
+  color: var(--accent-1-dark) !important;
+  font-style: italic !important;
+}
+
+.heading a[rel="author"]:hover,
+h3.byline.heading a:hover,
+h4.heading a[rel="author"]:hover {
+  color: var(--btn-dark-end) !important;
+  text-decoration: underline !important;
+}
+
+/* Active / currently-selected state — amethyst gradient pill. */
+.actions a:active,
+.current,
+a.current,
+a:link.current,
+.current a:visited {
+  background: linear-gradient(135deg, #181830 0%, var(--accent-1) 70%, var(--accent-2) 100%) !important;
+  border-color: var(--accent-2) !important;
+  border-radius: 4px !important;
+  box-shadow: inset 1px 1px 3px rgba(24,24,48,0.4), 0 2px 8px rgba(139,45,160,0.2) !important;
+  color: var(--text-on-dark) !important;
+}
+
+
+/* ============================================
+   4. HEADER & NAVIGATION
+   ============================================ */
+
+#header {
+  background: linear-gradient(135deg, #181830 0%, #2a1545 50%, #8B2DA0 100%) !important;
+  border-bottom: var(--border-width) solid var(--accent-1) !important;
+  border-top: none !important;
+  box-shadow: none !important;
+}
+
+/* Logo colorization — orchid pink tint (technique by zerafinacss) */
+#header .logo {
+  content: url("/images/logo.png") !important;
+  display: block !important;
+  filter: brightness(0) saturate(100%) invert(72%) sepia(30%) saturate(400%) hue-rotate(260deg) brightness(110%) contrast(90%) !important;
+  height: auto !important;
+  max-height: 60px !important;
+  width: auto !important;
+}
+
+/* Prevent the global img reset from inflating the logo */
+#header .logo img,
+#header h1 img {
+  max-height: 60px !important;
+  width: auto !important;
+}
+/* Text "beta" colorization — orchid pink */
+#header .heading sup {
+color: var(--accent-2);
+font-size: 0.583em;
+font-style: italic;
+}
+
+/* "Archive of Our Own" site title text */
+#header h1 a,
+#header h1 a:visited,
+#header h1 a span {
+  color: #f0d0f8 !important;
+  text-shadow: 0 1px 6px rgba(217,126,200,0.4) !important;
+}
+
+#header .logo a, #header .logo a:visited, #header .logo a:hover,
+#header h1 a, #header h1 a:visited, #header h1 a:hover {
+  border-bottom: none !important;
+}
+
+/* Strip AO3's default nav background */
+#header .primary.navigation {
+  background: transparent !important;
+}
+
+/* Semi-transparent dark/amethyst pill that holds the nav buttons */
+#header .primary.navigation > ul {
+  background: linear-gradient(135deg, rgba(24,24,48,0.55) 0%, rgba(139,45,160,0.35) 100%) !important;
+  border: 1px solid rgba(217,126,200,0.3) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2) !important;
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  margin: 6px 10px !important;
+  padding: 3px 8px !important;
+}
+
+/* Search bar — pill shape: text input left, submit button right. */
+#header .search {
+  border: none !important;
+  border-radius: var(--radius-full) !important;
+  display: flex !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  position: relative !important;
+  top: -2px !important;
+}
+
+#header .search form {
+  align-items: center !important;
+  display: flex !important;
+  width: 100% !important;
+}
+
+#header .search input[type="text"] {
+  background: rgba(24,24,48,0.5) !important;
+  border: 1px solid rgba(217,126,200,0.6) !important;
+  border-radius: var(--radius-full) 0 0 var(--radius-full) !important;
+  border-right: none !important;
+  color: var(--text-on-dark) !important;
+  flex: 1 1 auto !important;
+  font-size: 0.85em !important;
+  height: 1.8em !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  padding: 2px 10px !important;
+}
+
+#header .search input[type="text"]::placeholder {
+  color: rgba(242,235,240,0.45) !important;
+  opacity: 1 !important;
+}
+
+/* Covers both input[type="submit"] and <button type="submit"> variants */
+#header .search input[type="submit"],
+#header .search button[type="submit"],
+#header .search button {
+  background: linear-gradient(135deg, var(--btn-start) 0%, var(--btn-mid) 50%, var(--btn-end) 100%) !important;
+  border: 1px solid var(--btn-border) !important;
+  border-left: none !important;
+  border-radius: 0 var(--radius-full) var(--radius-full) 0 !important;
+  box-shadow: 0 2px 8px rgba(139,45,160,0.4) !important;
+  color: var(--text-on-dark) !important;
+  cursor: pointer !important;
+  flex: 0 0 auto !important;
+  font-size: 0.85em !important;
+  font-weight: 700 !important;
+  height: 1.8em !important;
+  margin: 0 !important;
+  padding: 2px 10px !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+}
+
+#header .search input[type="submit"]:hover,
+#header .search button[type="submit"]:hover,
+#header .search button:hover {
+  background: linear-gradient(135deg, var(--btn-hover-start) 0%, var(--btn-hover-mid) 50%, var(--btn-hover-end) 100%) !important;
+}
+
+
+/* Generic dropdown menus */
+.dropdown .menu {
+  background: linear-gradient(180deg, #f8f0fa 0%, var(--light-bg) 100%) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 4px 12px rgba(42,16,58,0.18) !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.dropdown .menu li {
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.dropdown .menu a,
+.dropdown .menu a:visited {
+  border: none !important;
+  color: #2a103a !important;
+  display: block !important;
+  font-weight: 600 !important;
+  height: auto !important;
+  line-height: 1.4 !important;
+  padding: 3px 10px !important;
+  white-space: normal !important;
+}
+
+.dropdown .menu a:hover {
+  background: var(--accent-2-faint) !important;
+  color: var(--accent-1-dark) !important;
+}
+
+.autocomplete .dropdown .menu {
+  background: linear-gradient(180deg, #f8f0fa 0%, var(--light-bg) 100%) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* ============================================
+   5. GREETING / USER MENU
+   ============================================ */
+
+#greeting {
+  color: var(--text-on-dark) !important;
+  font-size: 1.1em !important;
+  font-weight: 600 !important;
+  padding-right: 10px !important;
+}
+
+#greeting ul.navigation.actions {
+  align-items: center !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+/* Greeting icon — square with orchid ring glow, matches profile/dashboard icon style */
+#greeting .icon,
+#greeting .user .icon {
+  border: 2px solid transparent !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 0 0 2px rgba(217,126,200,0.7), 0 0 10px rgba(139,45,160,0.4) !important;
+  display: inline-block !important;
+  overflow: hidden !important;
+  transition: box-shadow 0.2s ease !important;
+  vertical-align: middle !important;
+}
+
+#greeting .icon:hover,
+#greeting .user .icon:hover {
+  box-shadow: 0 0 0 2px var(--accent-2), 0 0 16px rgba(139,45,160,0.7) !important;
+}
+
+#greeting .icon img,
+#greeting .user .icon img {
+  border-radius: var(--radius-sm) !important;
+  display: block !important;
+  filter: brightness(1.05) saturate(1.1) !important;
+}
+
+/* Greeting dropdown container */
+#greeting .dropdown .menu,
+#greeting .dropdown .menu li {
+  background: var(--card-bg) !important;
+  border-bottom: none !important;
+}
+
+/* Greeting and primary-nav dropdown items */
+#greeting .dropdown .menu a,
+#greeting .dropdown .menu a:visited,
+#header .primary.navigation li.dropdown ul.menu a,
+#header .primary.navigation li.dropdown ul.menu a:visited {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #2a103a !important;
+  display: block !important;
+  font-size: 0.85em !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  overflow-wrap: break-word !important;
+  padding: 3px 18px !important;
+  text-shadow: none !important;
+  text-transform: uppercase !important;
+  white-space: normal !important;
+}
+
+#greeting .dropdown .menu a:hover,
+#header .primary.navigation li.dropdown ul.menu a:hover {
+  background: linear-gradient(135deg, var(--btn-hover-start) 0%, var(--btn-hover-mid) 50%, var(--btn-hover-end) 100%) !important;
+  color: var(--text-on-dark) !important;
+  text-decoration: none !important;
+}
+
+/* Primary-nav dropdown panels */
+#header .primary.navigation li.dropdown ul.menu {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 4px 12px rgba(42,16,58,0.18) !important;
+  flex-wrap: unset !important;
+  height: auto !important;
+  margin: 0 !important;
+  max-height: none !important;
+  max-width: 220px !important;
+  overflow: visible !important;
+  padding: 4px 0 !important;
+}
+
+#header .primary.navigation li.dropdown ul.menu li {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: block !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+  padding: 2px 0 !important;
+  white-space: normal !important;
+}
+
+
+/* ============================================
+   6. SIDEBAR & DASHBOARD
+   ============================================ */
+
+/* Sidebar and dashboard nav panel */
+#dashboard {
+  background: linear-gradient(180deg, #f8f0fa 0%, var(--panel-bg) 100%) !important;
+  border: 1px solid var(--border-light) !important;
+  border-bottom: 2px dashed var(--accent-2) !important;
+  border-radius: 6px !important;
+  border-top: 3px solid var(--accent-1) !important;
+  box-shadow: 0 2px 8px rgba(217,126,200,0.2) !important;
+}
+
+#dashboard h2, #dashboard h2.heading,
+#dashboard h3, #dashboard h3.heading,
+#dashboard h4, #dashboard h4.heading {
+  background: linear-gradient(90deg, var(--accent-1) 0%, var(--accent-2) 100%) !important;
+  border: none !important;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important;
+  color: var(--text-on-dark) !important;
+  font-size: 1em !important;
+  letter-spacing: 0.03em !important;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+}
+
+#dashboard a, #dashboard a:link, #dashboard a:visited {
+  background: none !important;
+  border-bottom: none !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--accent-1) !important;
+  display: block;
+  font-size: 0.85em !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.04em !important;
+  padding: 2px 6px !important;
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+}
+
+/* Force list items to stack vertically */
+#dashboard ul.navigation.actions li {
+  display: block;
+}
+
+/* Currently-active nav link — amethyst pill */
+#dashboard .current,
+#dashboard li.current a {
+  background: linear-gradient(135deg, #181830 0%, var(--accent-1) 70%, var(--accent-1-light) 100%) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 10px rgba(139,45,160,0.35) !important;
+  color: var(--text-on-dark) !important;
+  font-weight: bold !important;
+  padding: 2px 10px !important;
+  text-decoration: none !important;
+}
+
+
+/* ============================================
+   7. BUTTONS & ACTIONS
+   ============================================ */
+
+/* All amethyst-gradient buttons and action links across the site.
+   ─── AMETHYST GRADIENT — edit colours here to change all buttons at once ───
+   Base:  #e89fda → #D97EC8 → #8B2DA0
+   Hover: #181830 → #2a1545 → #8B2DA0
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* ── Base style ─────────────────────────────────────────────────────────────
+   Selector mirrors AO3's canonical actions.css rule exactly. */
+.actions a, .actions a:link,
+.action, .action:link,
+.actions button,
+.actions input,
+input[type="submit"],
+button,
+.actions label {
+  background: linear-gradient(135deg, var(--btn-start) 0%, var(--btn-mid) 50%, var(--btn-end) 100%) !important;
+  border: 1px solid var(--btn-border) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 3px rgba(42,16,58,0.3), inset 0 1px 0 rgba(255,255,255,0.15) !important;
+  color: var(--text-on-dark) !important;
+  cursor: pointer !important;
+  display: inline-block !important;
+  font-size: 0.9em !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  padding: 6px 12px !important;
+  text-decoration: none !important;
+  vertical-align: middle !important;
+}
+
+/* Visited state */
+.actions a:visited,
+.action:visited {
+  background: linear-gradient(135deg, var(--btn-start) 0%, var(--btn-mid) 50%, var(--btn-end) 100%) !important;
+  color: var(--text-on-dark) !important;
+}
+
+/* Hover / focus state */
+.actions a:hover, .actions a:focus,
+.action:hover, .action:focus,
+.actions button:hover, .actions button:focus,
+.actions input:hover, .actions input:focus,
+input[type="submit"]:hover, input[type="submit"]:focus,
+button:hover, button:focus,
+label.action:hover, label.action:focus {
+  background: linear-gradient(135deg, var(--btn-hover-start) 0%, var(--btn-hover-mid) 50%, var(--btn-hover-end) 100%) !important;
+  border-color: var(--btn-hover-border) !important;
+  box-shadow: 0 2px 6px rgba(42,16,58,0.45), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+  color: var(--text-on-dark) !important;
+  text-decoration: none !important;
+}
+
+/* Chapter nav and work-page action bars — slightly wider padding */
+.chapter.navigation .next a,
+.chapter.navigation .previous a,
+#chapters .navigation .next a,
+#chapters .navigation .previous a,
+.work.navigation.actions a,
+#feedback .actions a {
+  padding: 4px 14px !important;
+}
+
+/* Pagination page-number buttons — fix text sitting near bottom edge */
+ol.pagination a,
+ol.pagination span {
+  line-height: normal !important;
+}
+
+/* ── Restore rules ──────────────────────────────────────────────────────────
+   Contexts where .actions links should NOT be gradient buttons. */
+
+/* 1. Header search — re-assert sec 4's values. */
+#header .search input[type="submit"],
+#header .search button[type="submit"],
+
+/* 2. Re-apply gradient to .actions links inside #main.dashboard content.
+   #main.dashboard a (1,0,1) beats .actions a (0,1,1), so (1,1,1) here wins. */
+#main.dashboard .actions a,
+#main.dashboard .actions a:link,
+#main.dashboard .actions a:visited {
+  background: linear-gradient(135deg, var(--btn-start) 0%, var(--btn-mid) 50%, var(--btn-end) 100%) !important;
+  border-bottom: none !important;
+  border-radius: 4px !important;
+  color: var(--text-on-dark) !important;
+  display: inline-block !important;
+  font-size: 0.9em !important;
+  font-weight: 500 !important;
+  padding: 4px 12px !important;
+  text-decoration: none !important;
+  text-transform: none !important;
+}
+
+#main.dashboard .actions a:hover {
+  background: linear-gradient(135deg, var(--btn-hover-start) 0%, var(--btn-hover-mid) 50%, var(--btn-hover-end) 100%) !important;
+  color: var(--text-on-dark) !important;
+}
+
+/* span.unread badge */
+#main.dashboard .actions span.unread {
+  background: linear-gradient(135deg, var(--btn-start) 0%, var(--btn-mid) 50%, var(--btn-end) 100%) !important;
+  border-radius: 4px !important;
+  color: var(--text-on-dark) !important;
+  display: inline-block !important;
+  font-size: 0.9em !important;
+  font-weight: 500 !important;
+  padding: 4px 12px !important;
+}
+
+/* 5. Header nav and greeting — gradient pill buttons.
+   Must come after the .actions a base rule to win via cascade position. */
+#header .primary.navigation a,
+#header .primary.navigation a:visited,
+#greeting a,
+#greeting a:visited {
+  background: linear-gradient(135deg, var(--btn-start) 0%, var(--btn-mid) 50%, var(--btn-end) 100%) !important;
+  border: 1px solid var(--btn-border) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 8px rgba(139,45,160,0.4) !important;
+  color: var(--text-on-dark) !important;
+  font-size: 0.82em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.07em !important;
+  margin: 0 3px !important;
+  padding: 4px 12px !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+  text-transform: uppercase !important;
+}
+
+#header .primary.navigation a:hover,
+#header .primary.navigation a:focus,
+#greeting a:hover {
+  background: linear-gradient(135deg, var(--btn-hover-start) 0%, var(--btn-hover-mid) 50%, var(--btn-hover-end) 100%) !important;
+  box-shadow: 0 2px 8px rgba(139,45,160,0.6) !important;
+  color: var(--text-on-dark) !important;
+}
+
+/* Sidebar NAV links — strip gradient back to plain amethyst text. */
+#dashboard ul.navigation.actions a,
+#dashboard ul.navigation.actions a:visited,
+#dashboard ul.navigation.actions button,
+#dashboard .button, #dashboard .action, #dashboard button, #dashboard input[type="submit"] {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--accent-1) !important;
+  display: block !important;
+  line-height: 1.4 !important;
+  padding: 4px 12px !important;
+  text-transform: uppercase !important;
+}
+
+#dashboard ul.navigation.actions a:hover {
+  background: linear-gradient(135deg, var(--btn-dark-start) 0%, var(--btn-end) 60%, var(--btn-dark-end) 100%) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 10px rgba(139,45,160,0.35) !important;
+  color: var(--text-on-dark) !important;
+  font-weight: bold !important;
+  line-height: 1.4 !important;
+  padding: 4px 12px !important;
+}
+
+/* 3. Footer buttons — blend into the dark footer as plain text (sec 20) */
+#footer .actions a,
+#footer .actions a:visited,
+#footer .actions button,
+#footer button {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--text-on-dark) !important;
+}
+
+/* 4. Generic dropdown menu links — plain panel items. */
+.dropdown .menu a,
+
+/* 6. Download dropdown links — plain list items inside the panel (sec 11) */
+.download.module .download ul.expandable.secondary a,
+.download.module .download ul.expandable.secondary a:visited {
+  background: none !important;
+  border-bottom: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--text) !important;
+}
+
+/* 7. Author links — italic amethyst text, never gradient buttons */
+a[rel="author"], a[rel="author"]:link, a[rel="author"]:visited,
+.byline a, .byline a:link, .byline a:visited,
+.heading a[rel="author"], .heading a[rel="author"]:link {
+  background: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--accent-1-mid) !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  padding: 0 !important;
+}
+
+/* 9. Heading .actions (e.g. sort controls in listing headers) — plain text */
+.heading .actions a,
+.heading .actions button,
+.heading .action {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--text-muted) !important;
+  font-size: 0.85em !important;
+  padding: 0.15em 0.375em !important;
+}
+
+/* 10. fieldset.actions chrome is stripped entirely (sec 8) */
+
+
+/* ============================================
+   8. FORMS & INPUTS
+   ============================================ */
+
+/* All text-type inputs, textareas, and selects */
+input[type="text"], input[type="email"], input[type="password"],
+textarea, select {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text) !important;
+  padding: 4px 8px !important;
+}
+
+/* Focus ring — soft orchid glow */
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
+textarea:focus, select:focus {
+  background: #fdf8fe !important;
+  border-color: var(--accent-1) !important;
+  box-shadow: 0 0 0 2px rgba(139,45,160,0.15) !important;
+  outline: none !important;
+}
+
+/* Fieldsets outside #header */
+fieldset:not(#header fieldset):not(#header *) {
+  background: linear-gradient(160deg, #fdf8fe 0%, #f5e8f8 100%) !important;
+  border: 1px solid rgba(139,45,160,0.2) !important;
+  border-radius: var(--radius-md) !important;
+  border-top: 3px solid var(--accent-1) !important;
+  box-shadow: 0 2px 8px rgba(139,45,160,0.12) !important;
+  margin-bottom: 1em !important;
+  padding: 0.5em 1.2em 1em !important;
+  position: relative !important;
+}
+
+fieldset:not(#header fieldset):not(#header *) legend {
+  background: linear-gradient(135deg, var(--btn-dark-start) 0%, var(--btn-end) 60%, var(--btn-dark-end) 100%) !important;
+  border: none !important;
+  border-radius: var(--radius-full) !important;
+  box-shadow: none !important;
+  color: var(--text-on-dark) !important;
+  font-size: 0.9em !important;
+  font-weight: bold !important;
+  height: auto !important;
+  left: auto !important;
+  opacity: 1 !important;
+  padding: 4px 14px !important;
+  position: static !important;
+  top: auto !important;
+  width: auto !important;
+}
+
+/* Listbox containers */
+.listbox,
+fieldset fieldset.listbox {
+  background: linear-gradient(160deg, var(--panel-bg) 0%, #e8d0f0 100%) !important;
+  border: 2px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  border-top: 3px solid var(--accent-1) !important;
+  clear: right !important;
+  margin: 0.643em auto !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+/* fieldset.actions — invisible layout container */
+fieldset.actions:not(#header fieldset):not(#header *) {
+  background: none !important;
+  border: none !important;
+  border-top: none !important;
+  box-shadow: none !important;
+  padding: 0.5em 0 !important;
+}
+
+/* --- Parent-skin autocomplete dropdown overflow fix (skin new/edit form) ---
+   The listbox fieldset clips the autocomplete dropdown by default.
+   Force overflow visible and high z-index so the suggestion list
+   isn't cut off inside the fieldset boundary.
+   Actual markup: fieldset.listbox.group > ul.autocomplete > li.input > div.autocomplete.dropdown */
+#main.skins-new fieldset.listbox.group,
+#main.skins-edit fieldset.listbox.group,
+#main.skins-new fieldset.listbox.group *,
+#main.skins-edit fieldset.listbox.group * {
+  overflow: visible !important;
+  z-index: 1 !important;
+}
+
+#main.skins-new ul.autocomplete,
+#main.skins-edit ul.autocomplete,
+#main.skins-new ul.autocomplete li.input,
+#main.skins-edit ul.autocomplete li.input,
+#main.skins-new div.autocomplete.dropdown,
+#main.skins-edit div.autocomplete.dropdown {
+  max-height: none !important;
+  overflow: visible !important;
+  position: relative !important;
+  z-index: 999999 !important;
+}
+
+#main.skins-new div.autocomplete.dropdown,
+#main.skins-edit div.autocomplete.dropdown {
+  background: var(--card-bg) !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.35) !important;
+  display: block !important;
+  position: absolute !important;
+}
+
+/* Prevent the autocomplete text input from touching the right edge of the fieldset */
+#main.skins-new ul.autocomplete li.input input[type="text"],
+#main.skins-edit ul.autocomplete li.input input[type="text"] {
+  box-sizing: border-box !important;
+  padding-right: 2.5em !important;
+  width: 100% !important;
+}
+
+/* ============================================
+   9. TAG SYSTEM
+   ============================================ */
+
+/* Tag container */
+ul.tags,
+.tags {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.tags li {
+  margin: 0.1em 0 !important;
+}
+
+/* Base pill shape shared by all tag types. */
+.tags a, .tags a:visited,
+ul.tags a,
+dl.meta a.tag {
+  border-radius: var(--radius-pill) !important;
+  display: inline-block !important;
+  font-size: 0.82em !important;
+  font-weight: 600 !important;
+  margin: 2px 1px !important;
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+  padding: 2px 10px !important;
+  text-decoration: none !important;
+  transition: filter 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease !important;
+  white-space: normal !important;
+}
+
+.tags a:hover, dl.meta a.tag:hover {
+  text-decoration: none !important;
+  transform: translateY(-1px) !important;
+}
+
+/* --- Rating — deep midnight navy --- */
+.rating a, .rating a:visited,
+dl.meta dd.rating a {
+  background: linear-gradient(135deg, #2e2860 0%, #0d0820 100%) !important;
+  border: 1px solid #4a3a7a !important;
+  box-shadow: 0 1px 3px rgba(24,24,48,0.2) !important;
+  color: #e8d8f8 !important;
+}
+
+.rating a span, .rating a:visited span,
+dl.meta dd.rating a span {
+  color: #e8d8f8 !important;
+}
+
+.rating a:hover,
+dl.meta dd.rating a:hover {
+  background: linear-gradient(135deg, #2e2860 0%, #1e1848 100%) !important;
+  border-color: var(--accent-1) !important;
+  box-shadow: 0 3px 10px rgba(24,24,48,0.35) !important;
+  color: #fff !important;
+  text-decoration: none !important;
+  transform: translateY(-1px) !important;
+}
+
+.rating a:hover span,
+dl.meta dd.rating a:hover span {
+  color: #fff !important;
+}
+
+/* --- Warning — vivid amethyst --- */
+.warnings a, .warning a,
+.warnings a:visited, .warning a:visited,
+dl.meta dd.warning a, dl.meta dd.warnings a {
+  background: linear-gradient(135deg, var(--tag-warning-grad-start) 0%, var(--tag-warning-grad-end) 100%) !important;
+  border: 1px solid var(--tag-warning-border) !important;
+  box-shadow: 0 1px 4px rgba(139,45,160,0.25) !important;
+  color: var(--tag-warning-text) !important;
+}
+
+.warnings a:hover, .warning a:hover,
+dl.meta dd.warning a:hover, dl.meta dd.warnings a:hover {
+  background: linear-gradient(135deg, var(--tag-warning-hover-grad-start) 0%, var(--tag-warning-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-warning-hover-border) !important;
+  color: var(--tag-warning-hover-text) !important;
+  text-decoration: none !important;
+  transform: translateY(-1px) !important;
+}
+
+/* --- Category — orchid pink (light) --- */
+.category a, .category a:visited,
+dl.meta dd.category a {
+  background: linear-gradient(135deg, var(--tag-category-grad-start) 0%, var(--tag-category-grad-end) 100%) !important;
+  border: 1px solid var(--tag-category-border) !important;
+  box-shadow: 0 1px 3px rgba(217,126,200,0.2) !important;
+  color: var(--tag-category-text) !important;
+}
+
+.category a:hover,
+dl.meta dd.category a:hover {
+  background: linear-gradient(135deg, var(--tag-category-hover-grad-start) 0%, var(--tag-category-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-category-hover-border) !important;
+  color: var(--tag-category-hover-text) !important;
+  text-decoration: none !important;
+  transform: translateY(-1px) !important;
+}
+
+/* --- Fandom — blush rose ---
+   Also covers tag links on h2.heading, fandoms-index, and media-index
+   to avoid per-page overrides (consolidated from the original TWH approach). */
+.fandoms a, .fandoms a:visited,
+h2.heading a.tag,
+h2.heading a.tag:visited,
+h5.fandoms.heading a, h5.fandoms.heading a:visited,
+dl.meta dd.fandom a,
+#main.fandoms-index ol.index.group li a,
+#main.fandoms-index ol.index.group li a:visited,
+#main.fandoms-index ul.tags.index.group li a,
+#main.fandoms-index ul.tags.index.group li a:visited,
+#main.media-index ol.index.group li a,
+#main.media-index ol.index.group li a:visited {
+  background: linear-gradient(135deg, var(--tag-fandom-grad-start) 0%, var(--tag-fandom-bg) 100%) !important;
+  border: 1px solid var(--tag-fandom-bg) !important;
+  border-bottom: 1px solid var(--tag-fandom-bg) !important;
+  border-radius: var(--radius-pill) !important;
+  box-shadow: 0 1px 3px rgba(232,160,192,0.2) !important;
+  color: var(--tag-fandom-text) !important;
+  display: inline-block !important;
+  font-size: 0.82em !important;
+  font-weight: 600 !important;
+  margin-bottom: 4px !important;
+  padding: 2px 10px !important;
+  text-decoration: none !important;
+}
+
+.fandoms a:hover,
+h2.heading a.tag:hover,
+h5.fandoms.heading a:hover,
+dl.meta dd.fandom a:hover,
+#main.fandoms-index ol.index.group li a:hover,
+#main.fandoms-index ul.tags.index.group li a:hover,
+#main.media-index ol.index.group li a:hover {
+  background: linear-gradient(135deg, var(--tag-fandom-hover-grad-start) 0%, var(--tag-fandom-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-fandom-hover-border) !important;
+  color: var(--tag-fandom-hover-text) !important;
+  text-decoration: none !important;
+  transform: translateY(-1px) !important;
+}
+
+/* --- Character — soft lilac --- */
+.characters a, .characters a:visited,
+dl.meta dd.character a {
+  background: linear-gradient(135deg, var(--tag-character-grad-start) 0%, var(--tag-character-grad-end) 100%) !important;
+  border: 1px solid var(--tag-character-border) !important;
+  box-shadow: 0 1px 3px rgba(184,160,224,0.2) !important;
+  color: var(--tag-character-text) !important;
+}
+
+.characters a:hover,
+dl.meta dd.character a:hover {
+  background: linear-gradient(135deg, var(--tag-character-hover-grad-start) 0%, var(--tag-character-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-character-hover-border) !important;
+  color: var(--tag-character-hover-text) !important;
+  text-decoration: none !important;
+  transform: translateY(-1px) !important;
+}
+
+/* --- Relationship — dusty mauve --- */
+.relationships a, .relationships a:visited,
+dl.meta dd.relationship a {
+  background: linear-gradient(135deg, var(--tag-relationship-grad-start) 0%, var(--tag-relationship-grad-end) 100%) !important;
+  border: 1px solid var(--tag-relationship-border) !important;
+  box-shadow: 0 1px 3px rgba(200,152,184,0.2) !important;
+  color: var(--tag-relationship-text) !important;
+}
+
+.relationships a:hover,
+dl.meta dd.relationship a:hover {
+  background: linear-gradient(135deg, var(--tag-relationship-hover-grad-start) 0%, var(--tag-relationship-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-relationship-hover-border) !important;
+  color: var(--tag-relationship-hover-text) !important;
+  text-decoration: none !important;
+  transform: translateY(-1px) !important;
+}
+
+/* --- Freeform / Additional tags — pale lavender mist --- */
+.freeforms a, .freeform a,
+.freeforms a:visited, .freeform a:visited,
+dl.meta dd.freeform a {
+  background: linear-gradient(135deg, var(--tag-freeform-grad-start) 0%, var(--tag-freeform-grad-end) 100%) !important;
+  border: 1px solid var(--tag-freeform-border) !important;
+  box-shadow: 0 1px 3px rgba(208,168,224,0.15) !important;
+  color: var(--tag-freeform-text) !important;
+}
+
+.freeforms a:hover, .freeform a:hover,
+dl.meta dd.freeform a:hover {
+  background: linear-gradient(135deg, var(--tag-freeform-hover-grad-start) 0%, var(--tag-freeform-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-freeform-hover-border) !important;
+  color: var(--tag-freeform-hover-text) !important;
+  text-decoration: none !important;
+  transform: translateY(-1px) !important;
+}
+
+
+/* ============================================
+   10. WORK BLURB CARDS
+   ============================================ */
+
+/* ── Fic title links ─────────────────────────────────────────────────────── */
+#main li.work.blurb h4.heading a,
+#main li.work.blurb h4.heading a:link {
+  color: var(--text-on-light) !important;
+  display: inline-block;
+  max-width: 100%;
+}
+
+#main li.work.blurb h4.heading a:visited,
+#main li.work.blurb .header.module h4.heading a:visited {
+  color: var(--accent-1-light) !important;
+}
+
+#main li.work.blurb h4.heading a:hover,
+#main li.work.blurb .header.module h4.heading a:hover {
+  color: var(--text) !important;
+}
+
+/* Hide AO3's comma separators between tag items */
+.work .fandom.heading,
+.fandoms.heading {
+  color: transparent !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+.work .fandom.heading li::after,
+.fandoms.heading li::after,
+.work .character.heading li::after,
+.characters.heading li::after,
+.work .relationship.heading li::after,
+.relationships.heading li::after,
+.work .freeform.heading li::after,
+.freeforms.heading li::after,
+.work .warning.heading li::after,
+.warnings.heading li::after,
+.work .category.heading li::after,
+.category.heading li::after,
+ul.tags li::after,
+ul.commas li::after {
+  content: "" !important;
+  display: none !important;
+}
+
+/* Row spacing between wrapped fandom tag pills achieved via margin-bottom on the <a> element */
+
+/*
+ * Card types on AO3:
+ *   li.work.blurb          — work listing card
+ *   li.bookmark.blurb      — bookmark listing card
+ *   li.series.blurb        — series listing card
+ *   li.own.collection.picture.blurb.group   — your own collection card
+ *   li.skins.own.picture.blurb.group        — your own skin card
+ *   li.collection.picture.blurb.group       — general collection card
+ */
+
+/* --- Work / bookmark / series cards — header band style --- */
+li.work.blurb,
+li.bookmark.blurb,
+li.series.blurb,
+li.collection.blurb.group {
+  background: var(--card-bg) !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 12px rgba(42,16,58,0.1) !important;
+  margin-bottom: 1em !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+li.work.blurb .header.module,
+li.bookmark.blurb .header.module,
+li.series.blurb .header.module {
+  background: rgba(217,126,200,0.08) !important;
+  border-bottom: 1px solid rgba(217,126,200,0.3) !important;
+  border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+  box-sizing: border-box !important;
+  display: flow-root !important;
+  padding: 10px 14px 8px !important;
+  position: relative !important;
+  width: 100% !important;
+}
+
+li.work.blurb p.datetime,
+li.bookmark.blurb p.datetime,
+li.series.blurb p.datetime {
+  font-size: 0.85em !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  right: 20px !important;
+  top: 14px !important;
+  white-space: nowrap !important;
+  z-index: 1 !important;
+}
+
+li.bookmark.blurb p.datetime {
+  top: 50px !important;
+}
+
+/* Right margin on title/fandom/byline to stop text flowing under the datetime */
+li.work.blurb .header.module h4.heading,
+li.bookmark.blurb .header.module h4.heading,
+li.series.blurb .header.module h4.heading,
+li.work.blurb .header.module h5.fandoms,
+li.bookmark.blurb .header.module h5.fandoms,
+li.series.blurb .header.module h5.fandoms,
+li.work.blurb .header.module .byline,
+li.bookmark.blurb .header.module .byline,
+li.series.blurb .header.module .byline {
+  display: block !important;
+  margin: 6px 0 0 60px !important;
+  overflow: hidden !important;
+  padding-right: 90px !important;
+}
+
+/* Required-tags icons — float left before the title */
+li.work.blurb .header.module ul.required-tags,
+li.bookmark.blurb .header.module ul.required-tags,
+li.series.blurb .header.module ul.required-tags {
+  float: left !important;
+  list-style: none !important;
+  margin: 10px 8px 4px 0 !important;
+  padding: 0 !important;
+}
+
+/* Fic title inside the header */
+li.work.blurb .header.module h4.heading a,
+li.work.blurb .header.module h4.heading a:link,
+li.bookmark.blurb .header.module h4.heading a,
+li.bookmark.blurb .header.module h4.heading a:link,
+li.series.blurb .header.module h4.heading a,
+li.series.blurb .header.module h4.heading a:link {
+  border-bottom: none !important;
+  color: var(--accent-1) !important;
+  font-weight: 800 !important;
+}
+
+li.work.blurb .header.module h4.heading a:visited,
+li.bookmark.blurb .header.module h4.heading a:visited,
+li.series.blurb .header.module h4.heading a:visited {
+  color: var(--accent-1-dark) !important;
+}
+
+li.work.blurb .header.module h4.heading a:hover,
+li.bookmark.blurb .header.module h4.heading a:hover,
+li.series.blurb .header.module h4.heading a:hover,
+li.own.collection.picture.blurb.group .header.module.group h4.heading a:hover,
+li.collection.picture.blurb.group .header.module.group h4.heading a:hover,
+li.skins.own.picture.blurb.group .header.module h4.heading a:hover {
+  color: var(--accent-2) !important;
+  text-decoration: underline !important;
+}
+
+/* Author byline inside the header */
+li.work.blurb .header.module .byline a,
+li.work.blurb .header.module .byline a:link,
+li.work.blurb .header.module a[rel="author"],
+li.bookmark.blurb .header.module .byline a,
+li.bookmark.blurb .header.module a[rel="author"],
+li.series.blurb .header.module .byline a,
+li.series.blurb .header.module a[rel="author"] {
+  border-bottom: none !important;
+  color: var(--text-muted) !important;
+  font-style: italic !important;
+}
+
+li.work.blurb .header.module .byline a:hover,
+li.work.blurb .header.module a[rel="author"]:hover,
+li.bookmark.blurb .header.module .byline a:hover,
+li.bookmark.blurb .header.module a[rel="author"]:hover,
+li.series.blurb .header.module .byline a:hover,
+li.series.blurb .header.module a[rel="author"]:hover {
+  color: var(--accent-1) !important;
+  text-decoration: underline !important;
+}
+
+/* Horizontal padding for the card body */
+li.work.blurb .content,
+li.work.blurb ul.tags,
+li.work.blurb blockquote,
+li.work.blurb dl.stats,
+li.work.blurb .actions,
+li.bookmark.blurb .content,
+li.bookmark.blurb ul.tags,
+li.bookmark.blurb blockquote,
+li.bookmark.blurb dl.stats,
+li.bookmark.blurb .actions,
+li.series.blurb .content,
+li.series.blurb ul.tags,
+li.series.blurb blockquote,
+li.series.blurb dl.stats,
+li.series.blurb .actions {
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+}
+
+li.work.blurb ul.tags,
+li.bookmark.blurb ul.tags,
+li.series.blurb ul.tags {
+  padding-top: 10px !important;
+}
+
+li.work.blurb dl.stats,
+li.bookmark.blurb dl.stats,
+li.series.blurb dl.stats {
+  border-top: 1px solid var(--border-light) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  margin-top: 0.5em !important;
+  padding-bottom: 10px !important;
+  padding-top: 0.5em !important;
+}
+
+li.work.blurb dl.stats dt,
+li.bookmark.blurb dl.stats dt,
+li.series.blurb dl.stats dt {
+  margin-right: 0.25em !important;
+}
+
+li.work.blurb dl.stats dd,
+li.bookmark.blurb dl.stats dd,
+li.series.blurb dl.stats dd {
+  margin-right: 1.2em !important;
+}
+
+/* Lift all card types on hover */
+li.work.blurb:hover,
+li.bookmark.blurb:hover,
+li.series.blurb:hover,
+li.own.collection.picture.blurb.group:hover,
+li.skins.own.picture.blurb.group:hover,
+li.collection.picture.blurb.group:hover {
+  box-shadow: 0 4px 20px rgba(42,16,58,0.15) !important;
+}
+
+/* --- Own collection cards --- */
+li.own.collection.picture.blurb.group {
+  background: var(--card-bg) !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 12px rgba(42,16,58,0.1) !important;
+  margin-bottom: 1em !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+/* Header band */
+li.own.collection.picture.blurb.group .header.module.group {
+  background: rgba(217,126,200,0.08) !important;
+  border-bottom: 1px solid rgba(217,126,200,0.3) !important;
+  border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  padding: 10px 14px 8px !important;
+  width: 100% !important;
+}
+
+/* Datetime floats right */
+li.own.collection.picture.blurb.group .header.module.group p.datetime {
+  color: var(--text-muted) !important;
+  float: right !important;
+  font-size: 0.82em !important;
+  font-style: italic !important;
+  margin: 2px 0 0 10px !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* Icon floats left inside the header */
+li.own.collection.picture.blurb.group .header.module.group .icon {
+  float: left !important;
+  margin: 2px 10px 4px 0 !important;
+}
+
+li.own.collection.picture.blurb.group .header.module.group .icon img {
+  border: 2px solid var(--accent-1) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 8px rgba(139,45,160,0.2) !important;
+  display: block !important;
+  height: 40px !important;
+  width: 40px !important;
+}
+
+/* Title heading */
+li.own.collection.picture.blurb.group .header.module.group h4.heading {
+  display: block !important;
+  margin: 2px 0 0 50px !important;
+  overflow: hidden !important;
+}
+
+li.own.collection.picture.blurb.group .header.module.group h4.heading a,
+li.own.collection.picture.blurb.group .header.module.group h4.heading a:visited {
+  border-bottom: none !important;
+  color: var(--accent-1) !important;
+  font-weight: 800 !important;
+}
+
+li.own.collection.picture.blurb.group .header.module.group h4.heading a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* Internal name slug */
+li.own.collection.picture.blurb.group .header.module.group h4.heading .name {
+  color: var(--text-muted) !important;
+  font-size: 0.8em !important;
+  font-weight: 400 !important;
+}
+
+/* Owner and mod links */
+li.own.collection.picture.blurb.group .header.module.group a.owner,
+li.own.collection.picture.blurb.group .header.module.group a.owner:visited,
+li.own.collection.picture.blurb.group .header.module.group a.mod,
+li.own.collection.picture.blurb.group .header.module.group a.mod:visited {
+  border-bottom: none !important;
+  color: var(--accent-1-mid) !important;
+  font-style: italic !important;
+}
+
+li.own.collection.picture.blurb.group .header.module.group a.owner:hover,
+li.own.collection.picture.blurb.group .header.module.group a.mod:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* Body content padding */
+li.own.collection.picture.blurb.group blockquote.userstuff.summary,
+li.own.collection.picture.blurb.group p.type,
+li.own.collection.picture.blurb.group dl.stats,
+li.own.collection.picture.blurb.group ul.actions {
+  list-style: none !important;
+  margin-bottom: 10px !important;
+  margin-left: 14px !important;
+  margin-right: 14px !important;
+  margin-top: 0.4em !important;
+  padding: 0 !important;
+}
+
+/* Type badge */
+li.own.collection.picture.blurb.group p.type {
+  background: var(--panel-bg) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: var(--radius-pill) !important;
+  color: var(--accent-1-dark) !important;
+  display: inline-block !important;
+  font-size: 0.8em !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.4em !important;
+  margin-top: 0.6em !important;
+  padding: 2px 10px !important;
+}
+
+/* Stats bar */
+li.own.collection.picture.blurb.group dl.stats {
+  border-top: 1px solid var(--border-light) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  margin-top: 0.5em !important;
+  padding-bottom: 10px !important;
+  padding-top: 0.5em !important;
+}
+
+li.own.collection.picture.blurb.group dl.stats dt {
+  color: var(--text-muted) !important;
+  font-size: 0.82em !important;
+  font-weight: 700 !important;
+  margin-right: 0.25em !important;
+  text-transform: uppercase !important;
+}
+
+li.own.collection.picture.blurb.group dl.stats dd {
+  color: var(--text) !important;
+  font-weight: 700 !important;
+  margin-right: 1.2em !important;
+}
+
+li.own.collection.picture.blurb.group dl.stats dd a,
+li.own.collection.picture.blurb.group dl.stats dd a:visited,
+li.collection.picture.blurb.group dl.stats dd a,
+li.collection.picture.blurb.group dl.stats dd a:visited {
+  border-bottom: none !important;
+  color: var(--accent-1) !important;
+  font-weight: 700 !important;
+}
+
+li.own.collection.picture.blurb.group dl.stats dd a:hover,
+li.collection.picture.blurb.group dl.stats dd a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+li.own.collection.picture.blurb.group ul.actions li {
+  display: inline-block !important;
+  margin: 2px 0 !important;
+}
+
+/* Skin cards */
+li.skins.own.picture.blurb.group {
+  background: linear-gradient(160deg, #fefefe 0%, #fdf8fe 100%) !important;
+  border: 1px solid rgba(139,45,160,0.2) !important;
+  border-radius: var(--radius-md) !important;
+  border-top: 3px solid var(--accent-1) !important;
+  box-shadow: 0 2px 6px rgba(139,45,160,0.08) !important;
+  margin-bottom: 1em !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+li.collection.picture.blurb.group {
+  background: linear-gradient(160deg, #fefcfe 0%, #faf4fc 100%) !important;
+  border: 1px solid rgba(139,45,160,0.2) !important;
+  border-radius: var(--radius-md) !important;
+  border-top: 3px solid var(--accent-1) !important;
+  box-shadow: 0 2px 6px rgba(139,45,160,0.08) !important;
+  margin-bottom: 1em !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+li.collection.picture.blurb.group .header.module.group {
+  background: rgba(217,126,200,0.08) !important;
+  border-bottom: 1px solid rgba(217,126,200,0.3) !important;
+  border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+  box-sizing: border-box !important;
+  margin-bottom: 0 !important;
+  overflow: hidden !important;
+  padding: 10px 14px 8px !important;
+  width: 100% !important;
+}
+
+li.collection.picture.blurb.group .header.module.group h4.heading a,
+li.collection.picture.blurb.group .header.module.group h4.heading a:visited {
+  border-bottom: none !important;
+  color: var(--accent-1) !important;
+  font-weight: 800 !important;
+}
+
+li.collection.picture.blurb.group .header.module.group p.datetime {
+  color: var(--text-muted) !important;
+  font-size: 0.82em !important;
+  font-style: italic !important;
+  margin-right: 40px !important;
+}
+
+li.skins.own.picture.blurb.group .header.module {
+  background: rgba(217,126,200,0.08) !important;
+  border-bottom: 1px solid rgba(217,126,200,0.3) !important;
+  border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+  padding: 10px 14px 8px !important;
+}
+
+li.skins.own.picture.blurb.group .header.module h4.heading a,
+li.skins.own.picture.blurb.group .header.module h4.heading a:visited {
+  border-bottom: none !important;
+  color: var(--accent-1) !important;
+  font-weight: 800 !important;
+}
+
+li.skins.own.picture.blurb.group .header.module .byline,
+li.skins.own.picture.blurb.group .header.module .byline a,
+li.skins.own.picture.blurb.group .header.module .byline a:visited,
+li.skins.own.picture.blurb.group .header.module a[rel="author"],
+li.skins.own.picture.blurb.group .header.module a[rel="author"]:visited {
+  color: var(--text-muted) !important;
+  font-style: italic !important;
+}
+
+li.skins.own.picture.blurb.group .header.module p.datetime {
+  color: var(--text-muted) !important;
+  font-size: 0.82em !important;
+  font-style: italic !important;
+  margin-right: 40px !important;
+}
+
+li.skins.own.picture.blurb.group .icon img {
+  border: 2px solid var(--accent-2) !important;
+  border-radius: var(--radius-md) !important;
+  display: block !important;
+}
+
+/* Margins for skins card body content */
+li.skins.own.picture.blurb.group blockquote.userstuff.summary,
+li.skins.own.picture.blurb.group .actions {
+  margin-bottom: 10px !important;
+  margin-left: 14px !important;
+  margin-right: 14px !important;
+  margin-top: 10px !important;
+}
+
+/* --- Summary blockquotes (all card types) --- */
+.blurb .summary,
+.blurb blockquote.userstuff.summary,
+blockquote.userstuff.summary {
+  text-align: left !important;
+}
+
+blockquote.userstuff.summary,
+.blurb blockquote.userstuff.summary,
+li.work.blurb blockquote.userstuff.summary,
+li.bookmark.blurb blockquote.userstuff.summary,
+li.series.blurb blockquote.userstuff.summary,
+li.skins.own.picture.blurb.group blockquote.userstuff.summary,
+li.own.collection.picture.blurb.group blockquote.userstuff.summary,
+li.collection.picture.blurb.group blockquote.userstuff.summary {
+  background: linear-gradient(160deg, #fdf8fe 0%, #f5e8f8 100%) !important;
+  border: 1px solid rgba(217,126,200,0.25) !important;
+  border-left: 2px solid rgba(217,126,200,0.4) !important;
+  border-radius: var(--radius-sm) !important;
+  box-sizing: border-box !important;
+  color: var(--text) !important;
+  font-size: 1em !important;
+  font-style: italic !important;
+  line-height: inherit !important;
+  margin: 0.5em 14px !important;
+  max-width: 100% !important;
+  padding: 0.5em 0.75em !important;
+  text-align: left !important;
+}
+
+/* --- Stats bar --- */
+dl.stats {
+  border-top: 1px solid var(--border-light) !important;
+  margin-top: 0.5em !important;
+  padding-top: 0.5em !important;
+}
+
+li.collection.picture.blurb.group dl.stats {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0.5em 0 !important;
+  padding: 0 !important;
+}
+
+li.collection.picture.blurb.group dl.stats dt {
+  color: var(--accent-1) !important;
+  font-size: 0.82em !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+}
+
+li.collection.picture.blurb.group dl.stats dd {
+  color: var(--text) !important;
+  font-weight: 700 !important;
+}
+
+/* --- Owner links (general collection cards) --- */
+li.collection.picture.blurb.group a.owner,
+li.collection.picture.blurb.group a.owner:visited {
+  border-bottom: none !important;
+  color: var(--accent-1-mid) !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+}
+
+li.collection.picture.blurb.group a.owner:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* --- .name and .type meta text --- */
+li.collection.picture.blurb.group h4.heading .name {
+  color: var(--accent-1-light) !important;
+  font-size: 0.8em !important;
+  font-weight: 400 !important;
+}
+
+/* Collection type badge */
+li.collection.picture.blurb.group p.type {
+  background: linear-gradient(135deg, #f0e0f8 0%, #e4cff0 100%) !important;
+  border: 1px solid rgba(217,126,200,0.4) !important;
+  border-radius: var(--radius-pill) !important;
+  color: var(--accent-1-dark) !important;
+  display: inline-block !important;
+  font-size: 0.8em !important;
+  font-weight: 600 !important;
+  margin: 0.4em 0 !important;
+  padding: 2px 10px !important;
+}
+
+/* --- Card thumbnail icons --- */
+li.collection.picture.blurb.group .icon img {
+  border: 2px solid var(--accent-2) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+/* --- Dimmed blurbs (read in history) --- */
+li.work.blurb.read.group {
+  opacity: 0.75 !important;
+}
+
+/* 'Inspired by' / 'Has inspired' expandable dl */
+dl.inspired.index.group {
+  background: linear-gradient(160deg, #fdf8fe 0%, #f5e8f8 100%) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  border-top: 3px solid var(--accent-1) !important;
+  box-shadow: 0 2px 10px rgba(139,45,160,0.08) !important;
+  margin-bottom: 1em !important;
+  padding: 0.75em 1em !important;
+}
+
+dl.inspired.index.group dt.parent {
+  border-bottom: 1px solid rgba(217,126,200,0.3) !important;
+  color: var(--accent-1-dark) !important;
+  font-size: 0.85em !important;
+  font-style: italic !important;
+  padding: 0.4em 0 0.2em 0 !important;
+}
+
+dl.inspired.index.group dt.parent a,
+dl.inspired.index.group dt.parent a:visited {
+  border-bottom: none !important;
+  color: var(--accent-1) !important;
+  font-style: normal !important;
+}
+
+dl.inspired.index.group dt.parent a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+dl.inspired.index.group dd.child {
+  background: linear-gradient(135deg, #fdf8fe 0%, #f5e8f8 100%) !important;
+  border-left: 2px solid var(--border-light) !important;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
+  color: var(--text) !important;
+  margin: 0.2em 0 0.5em 0.5em !important;
+  padding: 0.3em 0 0.3em 1em !important;
+}
+
+dl.inspired.index.group dd.child a,
+dl.inspired.index.group dd.child a:visited {
+  border-bottom: none !important;
+  color: var(--accent-1) !important;
+  font-weight: bold !important;
+}
+
+dl.inspired.index.group dd.child a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+dl.inspired.index.group dd.child:has(a:hover) {
+  background: linear-gradient(135deg, #f5e8f8 0%, #edd8f0 100%) !important;
+}
+
+/* Edit/Edit-Tags buttons on own-work cards */
+li.own.work.blurb ul.actions a:hover,
+li.own.work.blurb ul.actions input[type="submit"]:hover,
+li.work.blurb.own ul.actions a:hover,
+li.work.blurb.own ul.actions input[type="submit"]:hover {
+  background: linear-gradient(135deg, var(--btn-hover-start) 0%, var(--btn-hover-mid) 50%, var(--btn-hover-end) 100%) !important;
+  border-color: var(--btn-hover-border) !important;
+  color: var(--text-on-dark) !important;
+}
+
+/* --- Bookmarker's own module (byline, date, tags, actions) ---
+   AO3 markup: div.own.user.module.group inside li.bookmark.blurb */
+li.bookmark.blurb .own.user.module.group {
+  border-top: 1px solid var(--border-light) !important;
+  margin-top: 0.75em !important;
+  padding-top: 0.5em !important;
+}
+
+li.bookmark.blurb .own.user.module.group h5.byline.heading {
+  border-bottom: none !important;
+  color: var(--text-muted) !important;
+  font-size: 0.85em !important;
+  font-weight: 400 !important;
+  margin-bottom: 0.2em !important;
+}
+
+li.bookmark.blurb .own.user.module.group h5.byline.heading a,
+li.bookmark.blurb .own.user.module.group h5.byline.heading a:visited {
+  border-bottom: none !important;
+  color: var(--accent-1-mid) !important;
+  font-style: italic !important;
+}
+
+li.bookmark.blurb .own.user.module.group h6.meta.heading {
+  border-bottom: none !important;
+  color: var(--text-muted) !important;
+  font-size: 0.78em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  margin-bottom: 0.2em !important;
+  margin-top: 0.4em !important;
+  text-transform: uppercase !important;
+}
+
+/* Bookmarker's tag pills — styled as dark amethyst to distinguish from work tags */
+li.bookmark.blurb .own.user.module.group ul.meta.tags a,
+li.bookmark.blurb .own.user.module.group ul.meta.tags a:visited {
+  background: linear-gradient(135deg, #2a1545 0%, var(--accent-1) 100%) !important;
+  border: 1px solid var(--accent-1-mid) !important;
+  border-radius: var(--radius-pill) !important;
+  box-shadow: 0 1px 3px rgba(139,45,160,0.25) !important;
+  color: var(--text-on-dark) !important;
+  display: inline-block !important;
+  font-size: 0.78em !important;
+  font-weight: 600 !important;
+  margin: 2px 1px !important;
+  margin-bottom: 4px !important;
+  padding: 2px 10px !important;
+  text-decoration: none !important;
+}
+
+li.bookmark.blurb .own.user.module.group ul.meta.tags a:hover {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%) !important;
+  border-color: var(--accent-2) !important;
+  box-shadow: 0 2px 8px rgba(139,45,160,0.4) !important;
+  color: var(--text-on-dark) !important;
+  text-decoration: none !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ============================================
+   11. WORK PAGE
+   ============================================ */
+
+/* ── Tag pills inside the work meta block ────────────────────────────────── */
+dl.work.meta.group dd.rating a,
+dl.work.meta.group dd.rating a:visited {
+  background: linear-gradient(135deg, #2e2860 0%, #0d0820 100%) !important;
+  border: 1px solid #4a3a7a !important;
+  box-shadow: 0 1px 3px rgba(24,24,48,0.2) !important;
+  color: #e8d8f8 !important;
+}
+
+dl.work.meta.group dd.rating a span,
+dl.work.meta.group dd.rating a:visited span,
+span.rating-notrated, span.rating-general-audience,
+span.rating-teen, span.rating-mature, span.rating-explicit {
+  color: #e8d8f8 !important;
+}
+
+dl.work.meta.group dd.rating a:hover {
+  background: linear-gradient(135deg, #2e2860 0%, #1e1848 100%) !important;
+  border-color: var(--accent-1) !important;
+  box-shadow: 0 3px 10px rgba(24,24,48,0.35) !important;
+  color: #fff !important;
+}
+
+dl.work.meta.group dd.rating a:hover span {
+  color: #fff !important;
+}
+
+dl.work.meta.group dd.warning a,
+dl.work.meta.group dd.warning a:visited,
+dl.work.meta.group dd.warnings a,
+dl.work.meta.group dd.warnings a:visited {
+  background: linear-gradient(135deg, var(--tag-warning-grad-start) 0%, var(--tag-warning-grad-end) 100%) !important;
+  border: 1px solid var(--tag-warning-border) !important;
+  border-bottom: 1px solid var(--tag-warning-border) !important;
+  color: var(--tag-warning-text) !important;
+}
+
+dl.work.meta.group dd.warning a:hover,
+dl.work.meta.group dd.warnings a:hover {
+  background: linear-gradient(135deg, var(--tag-warning-hover-grad-start) 0%, var(--tag-warning-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-warning-hover-border) !important;
+  color: var(--tag-warning-hover-text) !important;
+}
+
+/* Force correct text on coloured tag pills — the dd { color } rule below would otherwise win */
+dl.work.meta.group dd.category a,
+dl.work.meta.group dd.category a:visited {
+  color: var(--tag-category-text) !important;
+}
+
+dl.work.meta.group dd.fandom a,
+dl.work.meta.group dd.fandom a:visited,
+dl.work.meta.group dd.fandoms a,
+dl.work.meta.group dd.fandoms a:visited {
+  color: var(--tag-fandom-text) !important;
+}
+
+dl.work.meta.group dd.fandom a:hover,
+dl.work.meta.group dd.fandoms a:hover {
+  background: linear-gradient(135deg, var(--tag-fandom-hover-grad-start) 0%, var(--tag-fandom-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-fandom-hover-border) !important;
+  color: var(--tag-fandom-hover-text) !important;
+  text-decoration: none !important;
+}
+
+dl.work.meta.group dd.category a:hover {
+  background: linear-gradient(135deg, var(--tag-category-hover-grad-start) 0%, var(--tag-category-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-category-hover-border) !important;
+  color: var(--tag-category-hover-text) !important;
+  text-decoration: none !important;
+}
+
+dl.work.meta.group dd.character a,
+dl.work.meta.group dd.character a:visited,
+dl.work.meta.group dd.characters a,
+dl.work.meta.group dd.characters a:visited {
+  color: var(--tag-character-text) !important;
+}
+
+dl.work.meta.group dd.character a:hover,
+dl.work.meta.group dd.characters a:hover {
+  background: linear-gradient(135deg, var(--tag-character-hover-grad-start) 0%, var(--tag-character-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-character-hover-border) !important;
+  color: var(--tag-character-hover-text) !important;
+  text-decoration: none !important;
+}
+
+dl.work.meta.group dd.relationship a,
+dl.work.meta.group dd.relationship a:visited,
+dl.work.meta.group dd.relationships a,
+dl.work.meta.group dd.relationships a:visited {
+  color: var(--tag-relationship-text) !important;
+}
+
+dl.work.meta.group dd.relationship a:hover,
+dl.work.meta.group dd.relationships a:hover {
+  background: linear-gradient(135deg, var(--tag-relationship-hover-grad-start) 0%, var(--tag-relationship-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-relationship-hover-border) !important;
+  color: var(--tag-relationship-hover-text) !important;
+  text-decoration: none !important;
+}
+
+dl.work.meta.group dd.freeform a,
+dl.work.meta.group dd.freeform a:visited,
+dl.work.meta.group dd.freeforms a,
+dl.work.meta.group dd.freeforms a:visited {
+  color: var(--tag-freeform-text) !important;
+}
+
+dl.work.meta.group dd.freeform a:hover,
+dl.work.meta.group dd.freeforms a:hover {
+  background: linear-gradient(135deg, var(--tag-freeform-hover-grad-start) 0%, var(--tag-freeform-hover-grad-end) 100%) !important;
+  border: 1px solid var(--tag-freeform-hover-border) !important;
+  color: var(--tag-freeform-hover-text) !important;
+  text-decoration: none !important;
+}
+
+/* Work body / chapter text container */
+#workskin {
+  background: linear-gradient(180deg, #ffffff 0%, #fdf8fe 100%) !important;
+  border: 1px solid #e8c8e8 !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text) !important;
+  line-height: 1.75 !important;
+  margin-top: 1.5em !important;
+}
+
+/* .userstuff — the card wrapping each chapter's prose. */
+.userstuff,
+.system .userstuff {
+  background: linear-gradient(180deg, #ffffff 0%, #fdf8fe 100%) !important;
+  border: 1px solid #e8c8e8 !important;
+  border-radius: var(--radius-md) !important;
+  box-sizing: border-box !important;
+  color: var(--text) !important;
+  font-weight: 400 !important;
+  line-height: 1.75 !important;
+  margin-bottom: 2.5em !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 1.5em !important;
+  max-width: 94% !important;
+  overflow-wrap: break-word !important;
+  padding: 1.5em 1.25em !important;
+  text-align: left !important;
+  text-transform: none !important;
+}
+
+/* No border-bottom on headings inside work text */
+#workskin h3.heading,
+#chapters h3.heading {
+  border-bottom: none !important;
+}
+
+#workskin p,
+.userstuff p,
+#chapters p {
+  font-weight: 400 !important;
+}
+
+#workskin h1, #workskin h2, #workskin h3,
+#workskin h4, #workskin h5, #workskin h6,
+#chapters h1, #chapters h2, #chapters h3,
+#chapters h4, #chapters h5, #chapters h6 {
+  font-weight: 700 !important;
+}
+
+/* Work metadata sidebar */
+dl.work.meta.group {
+  background: linear-gradient(160deg, #fdf8fe 0%, #f5e8f8 60%, #f0e0f5 100%) !important;
+  border: 1px solid var(--border-light) !important;
+  border-left: 8px solid var(--accent-1) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 12px rgba(217,126,200,0.15) !important;
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+  padding: 0.75em 1em !important;
+}
+
+/* Label row — small caps in amethyst */
+dl.work.meta.group dt {
+  border-bottom: none !important;
+  color: var(--accent-1) !important;
+  font-size: 0.85em !important;
+  font-weight: bold !important;
+  letter-spacing: 0.03em !important;
+  padding-top: 0.4em !important;
+  text-transform: uppercase !important;
+}
+
+dl.work.meta.group dt a,
+dl.work.meta.group dt a:link,
+dl.work.meta.group dt a:visited {
+  background: none !important;
+  color: var(--accent-1) !important;
+  text-decoration: none !important;
+}
+
+dl.work.meta.group dt a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* --- Author / byline links on the fic/work page --- */
+h3.byline.heading a,
+h3.byline.heading a:link,
+div.preface .byline a,
+div.preface .byline a:link,
+.preface.group .byline a,
+.preface.group .byline a:link {
+  border-bottom: none !important;
+  color: var(--accent-1-mid) !important;
+  font-style: italic !important;
+}
+
+h3.byline.heading a:visited,
+div.preface .byline a:visited,
+.preface.group .byline a:visited {
+  border-bottom: none !important;
+  color: var(--accent-1-dark) !important;
+  font-style: italic !important;
+}
+
+h3.byline.heading a:hover,
+div.preface .byline a:hover,
+.preface.group .byline a:hover {
+  color: var(--btn-dark-end) !important;
+  text-decoration: underline !important;
+}
+
+dl.work.meta.group dd {
+  border-left: 2px solid rgba(217,126,200,0.3) !important;
+  color: var(--text) !important;
+  margin-bottom: 0.3em !important;
+  padding-left: 0.5em !important;
+}
+
+/* The stats dl nested inside dd.stats */
+dl.work.meta.group dd.stats dl.stats {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+dl.work.meta.group dd.stats dl.stats dt {
+  background: none !important;
+  color: var(--accent-1-light) !important;
+  font-size: 0.8em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  padding: 0 !important;
+  text-transform: uppercase !important;
+}
+
+dl.work.meta.group dd.stats dl.stats dd {
+  background: none !important;
+  border-bottom: none !important;
+  color: var(--text) !important;
+  font-weight: bold !important;
+  padding: 0 !important;
+}
+
+/* Preface block */
+#workskin .preface.group,
+.work.meta.group ~ .preface.group,
+#chapters .preface.group {
+  background: var(--panel-bg) !important;
+  border: 1px solid var(--border-light) !important;
+  border-left: 3px solid var(--accent-1) !important;
+  border-radius: var(--radius-md) !important;
+  margin-bottom: 1.2em !important;
+  padding: 0.75em 1em !important;
+}
+
+/* Work title on the fic page */
+.preface.group h2.title.heading,
+#workskin h2.title {
+  border-bottom: none !important;
+  color: var(--text-muted) !important;
+  font-size: 1.6em !important;
+  font-weight: 800 !important;
+  margin-bottom: 0.1em !important;
+}
+
+/* Prepend "by" before the author byline on the work page.
+   font-size:0 hides the native "by" text node that AO3 already
+   renders, then the ::before and the <a> restore size explicitly. */
+.preface.group h3.byline.heading {
+  font-size: 0 !important;
+}
+
+.preface.group h3.byline.heading::before {
+  color: var(--text-muted) !important;
+  content: "by " !important;
+  font-size: 1rem !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+}
+
+/* Restore readable size on the author link after the font-size:0 reset above */
+.preface.group h3.byline.heading a {
+  font-size: 1rem !important;
+}
+
+/* Summary block */
+.preface.group .summary.module {
+  background: linear-gradient(135deg, #faf5ff 0%, #f5e8f8 50%, #f0e0f5 100%) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+  border-top: 3px solid var(--accent-2) !important;
+  box-shadow: 0 2px 10px rgba(217,126,200,0.2) !important;
+  margin: 0.4em 0 !important;
+  padding: 0.45em 0.75em !important;
+}
+
+.preface.group .summary.module h3.heading {
+  border-bottom: none !important;
+  color: var(--accent-1) !important;
+  font-size: 0.75em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  margin-bottom: 0.2em !important;
+  text-transform: uppercase !important;
+}
+
+.preface.group .summary.module blockquote.userstuff {
+  background: none !important;
+  border: none !important;
+  color: var(--text) !important;
+  font-size: 0.9em !important;
+  font-style: italic !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Notes blocks (beginning and end) */
+.preface.group .notes.module,
+.end.notes.module {
+  background: linear-gradient(135deg, #181830 0%, #2a1545 60%, #1a0e30 100%) !important;
+  border: 1px solid rgba(217,126,200,0.25) !important;
+  border-left: 3px solid var(--accent-2) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 12px rgba(24,24,48,0.4), inset 0 1px 0 rgba(217,126,200,0.1) !important;
+  margin: 0.4em 0 !important;
+  padding: 0.6em 0.9em !important;
+}
+
+.preface.group .notes.module h3.heading,
+.end.notes.module h3.heading {
+  border-bottom: 1px solid rgba(217,126,200,0.2) !important;
+  color: var(--accent-2) !important;
+  font-size: 0.72em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  margin-bottom: 0.4em !important;
+  padding-bottom: 0.3em !important;
+  text-shadow: 0 0 8px rgba(217,126,200,0.4) !important;
+  text-transform: uppercase !important;
+}
+
+.preface.group .notes.module blockquote.userstuff,
+.end.notes.module blockquote.userstuff {
+  background: none !important;
+  border: none !important;
+  color: #e8dff5 !important;
+  font-size: 0.9em !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.preface.group .notes.module p,
+.preface.group .notes.module p.jump,
+.end.notes.module p,
+.end.notes.module p.jump {
+  color: #e8dff5 !important;
+  font-size: 0.9em !important;
+  line-height: 1.6 !important;
+}
+
+.preface.group .notes.module blockquote.userstuff a,
+.end.notes.module blockquote.userstuff a,
+.preface.group .notes.module p a,
+.end.notes.module p a {
+  color: #f0a8d8 !important;
+}
+
+.preface.group .notes.module blockquote.userstuff a:hover,
+.end.notes.module blockquote.userstuff a:hover,
+.preface.group .notes.module p a:hover,
+.end.notes.module p a:hover {
+  color: #ffd0ee !important;
+  text-decoration: underline !important;
+}
+
+/* --- Work action bar --- */
+#workskin ~ .work.navigation.actions,
+.work.navigation.actions {
+  align-items: center !important;
+  background: none !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  margin: 1em 0 !important;
+  padding: 0.5em 0.75em !important;
+}
+
+#workskin ~ .work.navigation.actions li,
+.work.navigation.actions li {
+  margin: 0.2em 0.3em !important;
+}
+
+/* --- Kudos bar --- */
+#kudos {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+  border-top: 3px solid var(--accent-1) !important;
+  margin: 1.5em 0 !important;
+  padding: 0.75em 1em !important;
+  position: relative !important;
+  text-align: left !important;
+}
+
+#kudos img {
+  display: none !important;
+}
+
+#kudos p {
+  color: var(--text-muted) !important;
+  font-size: 0.9em !important;
+}
+
+#kudos a {
+  color: var(--accent-1) !important;
+  font-weight: 600 !important;
+}
+
+#kudos a:hover {
+  color: var(--accent-1-dark) !important;
+}
+
+/* --- Chapter select dropdown --- */
+#jump-to-chapter select {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text) !important;
+  padding: 3px 8px !important;
+}
+
+/* Own-work blurb action buttons */
+li.own.work.blurb ul.actions a,
+li.own.work.blurb ul.actions a:visited,
+li.own.work.blurb ul.actions input[type="submit"],
+li.work.blurb.own ul.actions a,
+li.work.blurb.own ul.actions a:visited,
+li.work.blurb.own ul.actions input[type="submit"] {
+  background: linear-gradient(135deg, var(--btn-start) 0%, var(--btn-mid) 50%, var(--btn-end) 100%) !important;
+  border-bottom: none !important;
+  border-color: var(--btn-border) !important;
+  border-radius: 4px !important;
+  color: var(--text-on-dark) !important;
+  cursor: pointer !important;
+  display: inline-block !important;
+  font-size: 0.9em !important;
+  font-weight: 600 !important;
+  padding: 4px 12px !important;
+  text-decoration: none !important;
+}
+
+
+/* ============================================
+   12. COMMENTS
+   ============================================ */
+
+/* Comment card — white background, amethyst left accent border. */
+li.comment {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-light) !important;
+  border-left: 3px solid var(--accent-1) !important;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0 !important;
+  margin-bottom: 0.5em !important;
+  min-width: 0 !important;
+  overflow-wrap: break-word !important;
+  padding: 0.625em 0.875em !important;
+}
+
+li.comment:hover {
+  border-left-color: var(--accent-2) !important;
+}
+
+/* Nesting depth 2 */
+li.comment li.comment {
+  background: linear-gradient(180deg, #fdf8fe 0%, #faf0fc 100%) !important;
+  border-left-color: var(--accent-2) !important;
+}
+
+/* Nesting depth 3+ */
+li.comment li.comment li.comment {
+  background: linear-gradient(180deg, #faf0fc 0%, #f5e8f8 100%) !important;
+  border-left-color: #e8a0c0 !important;
+}
+
+/* Comment heading / subject line */
+li.comment .heading {
+  border-bottom: 1px solid #f0d8f0 !important;
+  margin-bottom: 6px !important;
+  padding-bottom: 4px !important;
+}
+
+li.comment .heading a,
+li.comment .heading a:visited {
+  color: var(--accent-1) !important;
+  font-weight: bold !important;
+}
+
+/* Comment bylines alternate dark (odd) and light (even)
+   to give the thread visual rhythm and make nesting depth easier to follow.
+   Uses flex layout to keep avatars aligned without the padding-left hack. */
+li.comment:nth-child(odd) h4.byline,
+li.comment:nth-child(even) h4.byline {
+  align-items: center !important;
+  border-radius: var(--radius-sm) !important;
+  box-sizing: border-box !important;
+  color: var(--text-on-dark) !important;
+  display: flex !important;
+  font-size: 0.9em !important;
+  letter-spacing: 0.02em !important;
+  margin: 0 0 0.5em 0 !important;
+  overflow: hidden !important;
+  padding: 0.35em 0.75em !important;
+  width: 100% !important;
+}
+
+li.comment:nth-child(odd) h4.byline a,
+li.comment:nth-child(odd) h4.byline a:visited,
+li.comment:nth-child(even) h4.byline a,
+li.comment:nth-child(even) h4.byline a:visited {
+  color: var(--text-on-dark) !important;
+  margin-right: 0.5em !important;
+}
+
+li.comment:nth-child(odd) h4.byline {
+  background: linear-gradient(135deg, #2a1545 0%, var(--accent-1) 60%, var(--accent-2) 100%) !important;
+}
+
+li.comment:nth-child(even) h4.byline {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 60%, #e89fda 100%) !important;
+}
+
+/* Comment avatar / icon */
+li.comment .icon {
+  border: 2px solid var(--accent-1) !important;
+  border-radius: 50% !important;
+  float: left !important;
+  margin: 0 0.75em 0.5em 0 !important;
+  overflow: hidden !important;
+}
+
+li.comment:nth-child(odd) .icon {
+  border-color: var(--accent-1) !important;
+  box-shadow: 0 0 8px rgba(139,45,160,0.3), 0 0 0 3px rgba(139,45,160,0.1) !important;
+}
+
+li.comment:nth-child(even) .icon {
+  border-color: var(--accent-2) !important;
+  box-shadow: 0 0 8px rgba(217,126,200,0.3), 0 0 0 3px rgba(217,126,200,0.1) !important;
+}
+
+li.comment .icon:hover {
+  border-color: var(--accent-2) !important;
+  box-shadow: 0 0 14px rgba(139,45,160,0.5), 0 0 0 4px rgba(217,126,200,0.2) !important;
+}
+
+li.comment .icon img {
+  border-radius: 50% !important;
+  display: block !important;
+  height: 100px !important;
+  max-width: 100px !important;
+  width: 100px !important;
+}
+
+/* Action buttons on each comment */
+li.comment .actions a,
+li.comment .actions a:visited {
+  background: linear-gradient(135deg, var(--tag-freeform-grad-start) 0%, var(--tag-freeform-grad-end) 100%) !important;
+  border: 1px solid var(--accent-2) !important;
+  border-radius: 10px !important;
+  color: var(--accent-1) !important;
+  display: inline-block !important;
+  font-size: 0.8em !important;
+  font-weight: 600 !important;
+  margin: 2px !important;
+  padding: 1px 8px !important;
+}
+
+li.comment .actions a:hover {
+  background: linear-gradient(135deg, var(--btn-start) 0%, var(--btn-mid) 50%, var(--btn-end) 100%) !important;
+  color: var(--text-on-dark) !important;
+  text-decoration: none !important;
+}
+
+/* Flex row so Reply/Edit/Delete buttons wrap tidily */
+li.comment .actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  list-style: none !important;
+  margin: 0.5em 0 0 0 !important;
+  padding: 0 !important;
+}
+
+li.comment .actions li {
+  margin: 2px !important;
+}
+
+li.comment blockquote {
+  color: var(--text) !important;
+  line-height: 1.7 !important;
+  text-align: left !important;
+}
+
+/* Reply/new-comment form at the bottom of a thread */
+#add-comment-container {
+  background: var(--panel-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 1em !important;
+}
+
+
+/* ============================================
+   13. NOTICES & ALERTS
+   ============================================ */
+
+/* Yellow — informational notices */
+.notice, p.notice, div.notice {
+  background: linear-gradient(135deg, #fffbea 0%, #fff3c4 100%) !important;
+  border: 1px solid #f0c040 !important;
+  border-left: 4px solid #e0a800 !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 2px 8px rgba(224,168,0,0.12) !important;
+  color: #3d2800 !important;
+  padding: 0.75em 1em !important;
+}
+
+/* Orange — mild warnings */
+.caution, p.caution {
+  background: linear-gradient(135deg, #fff5f0 0%, #ffe0cc 100%) !important;
+  border: 1px solid #e08050 !important;
+  border-left: 4px solid #c05020 !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 2px 8px rgba(192,80,32,0.12) !important;
+  color: #4a1800 !important;
+}
+
+/* Narrow caution inside blurb cards */
+li.work.blurb .caution,
+li.work.blurb p.caution {
+  max-width: 80% !important;
+}
+
+/* Red — validation failures */
+.error, p.error, div.error, ul.errors {
+  background: #fff0f0 !important;
+  border: 1px solid #e8a0a0 !important;
+  border-left: 4px solid #c82020 !important;
+  border-radius: var(--radius-sm) !important;
+  color: #7a1010 !important;
+}
+
+/* Green — confirmations */
+.success, p.success, div.success {
+  background: #d4f0d4 !important;
+  border: 1px solid #5aaa5a !important;
+  border-left: 4px solid #1a6e1a !important;
+  border-radius: var(--radius-sm) !important;
+  color: #0d3d0d !important;
+}
+
+
+/* ============================================
+   14. FRONT PAGE (SPLASH)
+   ============================================ */
+
+#main.splash-page,
+div#main > div.splash,
+.splash {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 92% !important;
+  width: 92% !important;
+}
+
+/* Base shape shared by all three splash card types */
+.splash .favorite,
+.splash .news,
+.splash .module {
+  background: linear-gradient(160deg, #fdf8fe 0%, #f5e8f8 50%, #ede0ee 100%) !important;
+  border: 1px solid rgba(217,126,200,0.45) !important;
+  border-radius: var(--radius-md) !important;
+  border-top: 3px solid var(--accent-1) !important;
+  box-shadow: 0 4px 18px rgba(42,16,58,0.12) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+/* .favorite — warm blush card */
+.splash .favorite {
+  background: linear-gradient(160deg, #fdf8fe 0%, #f5e8f8 50%, #ede0ee 100%) !important;
+  border: 1px solid rgba(217,126,200,0.2) !important;
+  border-top: 3px solid var(--accent-2) !important;
+}
+
+/* .news — slightly deeper orchid card */
+.splash .news {
+  background: linear-gradient(160deg, #fdf5fe 0%, #f0e0f5 50%, #e8d0f0 100%) !important;
+  border: 1px solid rgba(139,45,160,0.2) !important;
+  border-top: 3px solid var(--accent-1) !important;
+}
+
+/* Splash summary blockquotes */
+.splash blockquote.userstuff.summary {
+  background: linear-gradient(160deg, #fdf8fe 0%, #f5e8f8 100%) !important;
+  border: 1px solid rgba(217,126,200,0.25) !important;
+  border-left: 2px solid rgba(217,126,200,0.4) !important;
+  border-radius: var(--radius-sm) !important;
+  box-sizing: border-box !important;
+  color: var(--text) !important;
+  font-size: 1em !important;
+  font-style: italic !important;
+  line-height: inherit !important;
+  margin: 0.5em 14px !important;
+  max-width: 100% !important;
+  padding: 0.5em 0.75em !important;
+  text-align: left !important;
+}
+
+/* Section headings inside .favorite and .module cards — dark amethyst banner */
+.splash .favorite h3,
+.splash .favorite h4,
+.splash .module h3,
+.splash .module h4 {
+  background: linear-gradient(135deg, #181830 0%, var(--accent-1) 60%, var(--accent-2) 100%) !important;
+  border-radius: 0 !important;
+  color: var(--text-on-dark) !important;
+  font-size: 1em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  margin: 0 !important;
+  padding: 10px 16px !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2) !important;
+  text-transform: uppercase !important;
+}
+
+/* 'Last visited X ago' sub-heading override */
+.splash .module h4.viewed {
+  background: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--text-on-dark) !important;
+  font-size: 0.75em !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em !important;
+  padding: 2px 8px !important;
+  text-shadow: none !important;
+  text-transform: none !important;
+}
+
+/* .news headings — lighter amethyst-to-orchid gradient */
+.splash .news > h3,
+.splash .news > h4 {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 55%, #e89fda 100%) !important;
+  border-radius: 0 !important;
+  color: var(--text-on-dark) !important;
+  font-size: 1em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  margin: 0 0 0 0 !important;
+  padding: 10px 16px !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2) !important;
+  text-transform: uppercase !important;
+}
+
+/* Inner content padding now that card padding is 0 */
+.splash .favorite ul,
+.splash .favorite ol,
+.splash .favorite p,
+.splash .news ul,
+.splash .news ol,
+.splash .news p,
+.splash .news article,
+.splash .news .post,
+.splash .module ul,
+.splash .module ol,
+.splash .module p,
+.splash .module div {
+  padding-left: 1.2em !important;
+  padding-right: 1.2em !important;
+}
+
+.splash .module a,
+.splash .module a:visited {
+  color: var(--accent-1-mid) !important;
+}
+
+.splash .module a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+.splash .favorite ul { padding-top: 0.75em !important; }
+.splash .news ul,
+.splash .news article:first-child,
+.splash .news .post:first-child { padding-top: 0.75em !important; }
+
+/* Heading links inside splash cards */
+.splash .favorite h3 a, .splash .favorite h3 a:visited,
+.splash .favorite h4 a, .splash .favorite h4 a:visited,
+.splash .module h3 a, .splash .module h3 a:visited,
+.splash .news > h3 a, .splash .news > h3 a:visited,
+.splash .news > h4 a, .splash .news > h4 a:visited {
+  color: var(--text-on-dark) !important;
+}
+
+.splash .module h3 a:hover,
+.splash .news > h3 a:hover,
+.splash .news > h4 a:hover {
+  color: var(--text-on-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* Restore correct tag pill colours inside splash cards
+   (the .splash .favorite a / .module a colour rule above would otherwise override them) */
+.splash .favorite .rating a, .splash .favorite .rating a:visited,
+.splash .module .rating a, .splash .module .rating a:visited {
+  background: linear-gradient(135deg, #2e2860 0%, #0d0820 100%) !important;
+  color: #e8d8f8 !important;
+}
+.splash .favorite .warning a, .splash .favorite .warning a:visited,
+.splash .favorite .warnings a, .splash .favorite .warnings a:visited,
+.splash .module .warning a, .splash .module .warning a:visited,
+.splash .module .warnings a, .splash .module .warnings a:visited {
+  background: linear-gradient(135deg, var(--tag-warning-grad-start) 0%, var(--tag-warning-grad-end) 100%) !important;
+  color: var(--tag-warning-text) !important;
+}
+.splash .favorite .category a, .splash .favorite .category a:visited,
+.splash .module .category a, .splash .module .category a:visited {
+  background: linear-gradient(135deg, var(--tag-category-grad-start) 0%, var(--tag-category-grad-end) 100%) !important;
+  color: var(--tag-category-text) !important;
+}
+.splash .favorite .fandoms a, .splash .favorite .fandoms a:visited,
+.splash .module .fandoms a, .splash .module .fandoms a:visited,
+.splash .favorite .fandom a, .splash .favorite .fandom a:visited,
+.splash .module .fandom a, .splash .module .fandom a:visited {
+  background: linear-gradient(135deg, var(--tag-fandom-grad-start) 0%, var(--tag-fandom-bg) 100%) !important;
+  color: var(--tag-fandom-text) !important;
+}
+.splash .favorite .characters a, .splash .favorite .characters a:visited,
+.splash .module .characters a, .splash .module .characters a:visited,
+.splash .favorite .character a, .splash .favorite .character a:visited,
+.splash .module .character a, .splash .module .character a:visited {
+  background: linear-gradient(135deg, var(--tag-character-grad-start) 0%, var(--tag-character-grad-end) 100%) !important;
+  color: var(--tag-character-text) !important;
+}
+.splash .favorite .relationships a, .splash .favorite .relationships a:visited,
+.splash .module .relationships a, .splash .module .relationships a:visited,
+.splash .favorite .relationship a, .splash .favorite .relationship a:visited,
+.splash .module .relationship a, .splash .module .relationship a:visited {
+  background: linear-gradient(135deg, var(--tag-relationship-grad-start) 0%, var(--tag-relationship-grad-end) 100%) !important;
+  color: var(--tag-relationship-text) !important;
+}
+.splash .favorite .freeforms a, .splash .favorite .freeforms a:visited,
+.splash .module .freeforms a, .splash .module .freeforms a:visited,
+.splash .favorite .freeform a, .splash .favorite .freeform a:visited,
+.splash .module .freeform a, .splash .module .freeform a:visited {
+  background: linear-gradient(135deg, var(--tag-freeform-grad-start) 0%, var(--tag-freeform-grad-end) 100%) !important;
+  color: var(--tag-freeform-text) !important;
+}
+
+/* Favorite list items */
+.splash .favorite li {
+  border-bottom: 1px solid rgba(217,126,200,0.35) !important;
+  padding: 7px 0 !important;
+}
+
+.splash .favorite li:last-child {
+  border-bottom: none !important;
+}
+
+.splash .favorite a, .splash .favorite a:visited {
+  color: var(--accent-1) !important;
+}
+
+.splash .news a, .splash .news a:visited {
+  color: var(--accent-1) !important;
+}
+
+.splash .favorite a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+.splash .news a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* Favorite list item link — block display + breathing room */
+.splash .favorite li a {
+  border-left: 3px solid transparent !important;
+  border-radius: var(--radius-sm) !important;
+  display: block !important;
+  padding: 3px 8px !important;
+  transition: background 0.18s ease, padding-left 0.18s ease, color 0.18s ease !important;
+}
+
+/* Alternating row colours in .favorite fandom lists.
+   Odd rows: deep amethyst tint + left accent + slight indent. */
+.splash .favorite li:nth-of-type(2n+1) a {
+  background: linear-gradient(135deg, rgba(139,45,160,0.35) 0%, rgba(100,20,130,0.25) 100%) !important;
+  border-left-color: var(--accent-2) !important;
+  color: var(--text) !important;
+  padding-left: 11px !important;
+}
+
+.splash .favorite li:nth-of-type(2n+1) a:visited {
+  color: var(--text-muted) !important;
+}
+
+/* Even rows — light blush */
+.splash .favorite li:nth-of-type(2n) a {
+  background: linear-gradient(135deg, #fdf0fe 0%, #f5e0f8 100%) !important;
+  color: var(--accent-1-dark) !important;
+}
+
+/* Odd-row hover — full dark amethyst gradient fill */
+.splash .favorite li:nth-child(odd) a:hover {
+  background: linear-gradient(135deg, #181830 0%, var(--accent-1) 60%, var(--accent-2) 100%) !important;
+  border-left-color: var(--accent-1) !important;
+  color: var(--text-on-dark) !important;
+  padding-left: 14px !important;
+  text-decoration: none !important;
+}
+
+/* Even-row hover — lighter orchid gradient */
+.splash .favorite li:nth-child(even) a:hover {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 60%, #e89fda 100%) !important;
+  border-left-color: var(--accent-2) !important;
+  color: var(--text-on-dark) !important;
+  padding-left: 14px !important;
+  text-decoration: none !important;
+}
+
+/* News articles */
+.splash .news article,
+.splash .news .post {
+  border-bottom: 1px solid rgba(139,45,160,0.15) !important;
+  padding: 8px 1.2em !important;
+}
+
+.splash .news article:last-child,
+.splash .news .post:last-child {
+  border-bottom: none !important;
+}
+
+.splash .news li .header.module h4.heading a,
+.splash .news li .header.module h4.heading a:visited {
+  background: none !important;
+  color: var(--text-on-dark) !important;
+}
+
+.splash .news .date,
+.splash .news .posted {
+  color: var(--accent-1-light) !important;
+  font-size: 0.85em !important;
+  font-style: italic !important;
+}
+
+/* News post titles on front page */
+.splash ul.news li .header.module h4.heading a,
+.splash ul.news li .header.module h4.heading a:visited {
+  background: none !important;
+  color: var(--text-on-dark) !important;
+}
+
+/* Author/byline text inside splash list items — mobile only, see mobile skin */
+
+.splash .news blockquote {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Summary blockquotes inside splash cards — reset left margin */
+.splash .module blockquote.userstuff.summary,
+.splash .favorite blockquote.userstuff.summary {
+  box-sizing: border-box !important;
+  margin-left: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  padding-left: 0.75em !important;
+}
+
+
+/* ============================================
+   15. INDEX PAGES (Media, Fandoms, Collections)
+   ============================================ */
+
+/* Strip the default list markers from the collections grid container */
+ul.collection.picture.index.group {
+  list-style: none !important;
+  padding: 0 !important;
+}
+
+/* ── /media — category grid ─────────────────────────────────────────────── */
+
+/* Page-level heading */
+#main.media-index > h2.heading {
+  border-bottom: 3px double var(--accent-1) !important;
+  color: var(--text-muted) !important;
+  font-size: 1.6em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  margin-bottom: 1.2em !important;
+  padding-bottom: 0.4em !important;
+  text-transform: uppercase !important;
+}
+
+/* Grid wrapper */
+#main.media-index ul.media.fandom.index.group {
+  align-items: start !important;
+  padding-top: 1.5em;
+}
+
+#main.media-index .listbox .index {
+  background: transparent !important;
+  height: auto !important;
+}
+
+/* Each media-category card */
+#main.media-index li.medium.listbox.group {
+  align-self: start !important;
+  background: linear-gradient(160deg, #fdf8fe 0%, var(--panel-bg) 60%, #f0e8f5 100%) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+  border-top: 4px solid var(--accent-1) !important;
+  box-shadow: 0 3px 14px rgba(42,16,58,0.09) !important;
+  height: auto !important;
+  margin: 0 0.75em 2em 0.75em !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  transition: box-shadow 0.2s ease, border-top-color 0.2s ease !important;
+}
+
+#main.media-index li.medium.listbox.group:hover {
+  border-top-color: var(--accent-2) !important;
+  box-shadow: 0 6px 22px rgba(42,16,58,0.15) !important;
+}
+
+/* Card heading banner */
+#main.media-index li.medium.listbox.group h3.heading {
+  background: linear-gradient(135deg, #181830 0%, #8B2DA0 60%, #D97EC8 100%) !important;
+  border-bottom: none !important;
+  border-radius: 0 !important;
+  color: var(--text-on-dark) !important;
+  font-size: 1em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  margin: 0 !important;
+  padding: 10px 16px !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2) !important;
+  text-transform: uppercase !important;
+}
+
+/* Heading link */
+#main.media-index li.medium.listbox.group h3.heading a,
+#main.media-index li.medium.listbox.group h3.heading a:visited {
+  border-bottom: none !important;
+  color: var(--text-on-dark) !important;
+  text-decoration: none !important;
+}
+
+#main.media-index li.medium.listbox.group h3.heading a:hover {
+  color: var(--text-on-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* The fandom list inside each media-category card */
+#main.media-index ol.index.group {
+  list-style: none !important;
+  padding: 0.9em 0.9em 0.9em 0.9em !important;
+}
+
+#main.media-index ol.index.group li {
+  align-items: center !important;
+  border-left: 3px solid transparent !important;
+  color: var(--accent-1-light) !important;
+  display: flex !important;
+  font-size: 0.85em !important;
+  font-weight: 500 !important;
+  justify-content: space-between !important;
+  margin: 0 !important;
+  padding: 0 10px 0 0 !important;
+  transition: border-color 0.15s ease !important;
+}
+
+/* Fandom links — covered by the consolidated fandom tag rule in section 9 */
+
+/* "… see all fandoms" action link at card bottom */
+#main.media-index li.medium.listbox.group p.actions {
+  border-top: 1px solid var(--border-light) !important;
+  margin: 0 !important;
+  padding: 8px 14px !important;
+  text-align: right !important;
+}
+
+#main.media-index li.medium.listbox.group p.actions a {
+  border-bottom: none !important;
+  color: var(--text-on-dark) !important;
+  font-size: 0.82em !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+}
+
+#main.media-index li.medium.listbox.group p.actions a:hover {
+  color: var(--text-on-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* ── /fandoms index — alphabetical letter cards ─────────────────────────── */
+#main.fandoms-index li.letter.listbox.group {
+  align-self: start !important;
+  background: var(--panel-bg) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 8px rgba(42,16,58,0.07) !important;
+  height: auto !important;
+  margin-bottom: 1.2em !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  padding: 0.75em 1em 1em !important;
+}
+
+#main.fandoms-index h3.heading {
+  background: linear-gradient(135deg, #181830 0%, var(--accent-1) 60%, var(--accent-2) 100%) !important;
+  border-bottom: none !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 10px rgba(139,45,160,0.2) !important;
+  color: var(--text-on-dark) !important;
+  font-size: 1.3em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  margin: 1em 0 0.5em 0 !important;
+  padding: 6px 16px !important;
+}
+
+#main.fandoms-index h3.heading a,
+#main.fandoms-index h3.heading a:visited {
+  border-bottom: none !important;
+  color: var(--text-on-dark) !important;
+  font-size: 0.7em !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+  vertical-align: middle !important;
+}
+
+#main.fandoms-index h3.heading a:hover {
+  color: var(--text-on-dark) !important;
+  text-decoration: none !important;
+}
+
+/* "↑ top" action inside fandoms-index letter heading */
+#main.fandoms-index h3.heading span.action.top {
+  background: rgba(255,255,255,0.15) !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 0.75em !important;
+  margin-left: 0.5em !important;
+  padding: 1px 6px !important;
+  vertical-align: middle !important;
+}
+
+#main.fandoms-index h3.heading span.action.top a,
+#main.fandoms-index h3.heading span.action.top a:visited {
+  color: var(--text-on-light) !important;
+  font-size: 1em !important;
+  opacity: 0.75 !important;
+}
+
+#main.fandoms-index h3.heading span.action.top a:hover {
+  color: var(--text-on-light) !important;
+  opacity: 1 !important;
+}
+
+#main.fandoms-index ol.index.group,
+#main.fandoms-index ul.tags.index.group {
+  list-style: none !important;
+  padding: 0.5em 0 0.5em 0.75em !important;
+}
+
+/* li stays on one line; the bare work-count text node sits as plain muted text */
+#main.fandoms-index ol.index.group li,
+#main.fandoms-index ul.tags.index.group li {
+  color: var(--text-muted) !important;
+  display: inline-block !important;
+  font-size: 0.78em !important;
+  font-weight: 400 !important;
+  margin: 3px !important;
+  white-space: nowrap !important;
+}
+
+/* Fandom name pill on the <a> — covered by the consolidated fandom tag rule in section 9 */
+
+
+/* ── /tags cloud page ────────────────────────────────────────────────────── */
+
+ul.tags.cloud.index.group {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  list-style: none !important;
+  padding: 1em !important;
+}
+
+ul.tags.cloud.index.group li {
+  display: inline-block !important;
+  list-style: none !important;
+  margin: 3px !important;
+}
+
+/* Base pill — soft lavender-to-lilac */
+ul.tags.cloud.index.group li a,
+ul.tags.cloud.index.group li a:visited {
+  background: linear-gradient(135deg, #f0e0f8 0%, #e4cff0 100%) !important;
+  border: 1px solid #d0a8e0 !important;
+  border-bottom: 1px solid #d0a8e0 !important;
+  border-radius: var(--radius-pill) !important;
+  color: var(--accent-1-dark) !important;
+  display: inline-block !important;
+  font-weight: 600 !important;
+  max-width: 90vw !important;
+  padding: 3px 10px !important;
+  text-decoration: none !important;
+  transition: background 0.15s ease, box-shadow 0.15s ease, color 0.15s ease, transform 0.1s ease !important;
+  white-space: normal !important;
+}
+
+/* Hover — deep amethyst to orchid */
+ul.tags.cloud.index.group li a:hover {
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%) !important;
+  border-bottom: 1px solid var(--accent-1) !important;
+  border-color: var(--accent-1) !important;
+  box-shadow: 0 2px 8px rgba(139,45,160,0.3) !important;
+  color: var(--text-on-dark) !important;
+  text-decoration: none !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Cloud size scale */
+ul.tags.cloud.index.group li a.cloud1 { font-size: 0.75em !important; font-weight: 500 !important; opacity: 0.75 !important; }
+ul.tags.cloud.index.group li a.cloud2 { font-size: 0.85em !important; font-weight: 500 !important; opacity: 0.85 !important; }
+ul.tags.cloud.index.group li a.cloud3 { font-size: 0.95em !important; font-weight: 600 !important; }
+ul.tags.cloud.index.group li a.cloud4 { font-size: 1.05em !important; font-weight: 600 !important; }
+ul.tags.cloud.index.group li a.cloud5 { font-size: 1.15em !important; font-weight: 600 !important; }
+ul.tags.cloud.index.group li a.cloud6 { font-size: 1.3em  !important; font-weight: 700 !important; }
+ul.tags.cloud.index.group li a.cloud7 { font-size: 1.5em  !important; font-weight: 700 !important; }
+
+/* cloud8 — most popular tags: dark amethyst, stands out from the lilac mass */
+ul.tags.cloud.index.group li a.cloud8 {
+  background: linear-gradient(135deg, #2a1545 0%, var(--accent-1) 60%, var(--accent-2) 100%) !important;
+  border-bottom-color: var(--accent-2) !important;
+  border-color: var(--accent-2) !important;
+  box-shadow: 0 2px 10px rgba(139,45,160,0.25) !important;
+  color: var(--text-on-dark) !important;
+  font-size: 1.7em !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
+}
+
+ul.tags.cloud.index.group li a.cloud8:hover {
+  background: linear-gradient(135deg, #181830 0%, #2a1545 50%, var(--accent-1) 100%) !important;
+  border-bottom-color: var(--accent-1) !important;
+  border-color: var(--accent-1) !important;
+  box-shadow: 0 3px 14px rgba(139,45,160,0.45) !important;
+  color: var(--text-on-dark) !important;
+}
+
+
+/* ============================================
+   16. PROFILE & STATS PAGES
+   ============================================ */
+
+/* Stats/meta dl */
+dl.statistics.meta.group,
+.wrapper dl.meta {
+  background: linear-gradient(135deg, #fdf8fe 0%, #f5eafa 100%) !important;
+  border: 1px solid var(--border-light) !important;
+  border-left: 4px solid var(--accent-1) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 10px rgba(139,45,160,0.08) !important;
+  margin-bottom: 1.2em !important;
+  padding: 0.75em 1.2em !important;
+}
+
+dl.statistics.meta.group dt,
+.wrapper dl.meta dt {
+  color: var(--accent-1-light) !important;
+  font-size: 0.82em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+
+dl.statistics.meta.group dd,
+.wrapper dl.meta dd {
+  color: var(--text) !important;
+  font-size: 1em !important;
+  font-weight: 600 !important;
+}
+
+dl.statistics.meta.group dd { margin-bottom: 0.2em !important; }
+.wrapper dl.meta dd          { margin-bottom: 0.3em !important; }
+
+.wrapper dl.meta dd a,
+.wrapper dl.meta dd a:visited {
+  color: var(--accent-1) !important;
+  font-style: italic !important;
+}
+
+.wrapper dl.meta dd a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* Stats chart */
+div#stat_chart,
+div.statistics.chart {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 12px rgba(139,45,160,0.08) !important;
+  margin: 1em 0 !important;
+}
+
+/* Stats page — works grouped by fandom */
+ul.statistics.index.group li.fandom.listbox.group {
+  background: linear-gradient(180deg, #fdf8fe 0%, #f8f0fa 100%) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 8px rgba(139,45,160,0.07) !important;
+  margin-bottom: 1.2em !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+/* Fandom heading banner — full-bleed */
+ul.statistics.index.group li.fandom.listbox.group h5.heading {
+  background: linear-gradient(135deg, #181830 0%, var(--accent-1) 60%, var(--accent-2) 100%) !important;
+  border-radius: 0 !important;
+  color: var(--text-on-dark) !important;
+  font-size: 1.05em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 !important;
+  padding: 6px 16px !important;
+}
+
+/* Work rows inside each fandom card */
+ul.statistics.index.group li.fandom.listbox.group ul.index.group {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li {
+  border-bottom: 1px solid #f0ddf0 !important;
+  padding: 0.6em 1em !important;
+}
+
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li:last-child {
+  border-bottom: none !important;
+}
+
+/* Work title link */
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dt a {
+  color: var(--accent-1) !important;
+  font-size: 0.95em !important;
+  font-weight: 600 !important;
+}
+
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dt a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* Word count inline */
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dt span.words {
+  color: var(--accent-1-light) !important;
+  font-size: 0.82em !important;
+  font-weight: 400 !important;
+}
+
+/* Stats sub-dl per work row */
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dd dl.stats {
+  margin: 0.3em 0 0 0 !important;
+  padding: 0 !important;
+}
+
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dd dl.stats dt {
+  color: var(--accent-1-light) !important;
+  font-size: 0.78em !important;
+  font-weight: 700 !important;
+}
+
+ul.statistics.index.group li.fandom.listbox.group ul.index.group li dl dd dl.stats dd {
+  color: var(--text) !important;
+  font-size: 0.82em !important;
+  font-weight: 500 !important;
+}
+
+/* Alternating row tint */
+.statistics .index li:nth-of-type(2n) {
+  background: rgba(217,126,200,0.08) !important;
+}
+
+
+/* ============================================
+   17. USER PROFILE
+   ============================================ */
+
+/* Primary header — flex row: icon left, banner fills remaining space,
+   actions wrap to their own row below. Strips AO3's default white box. */
+.user.home div.primary.header.module,
+.user.profile div.primary.header.module {
+  align-items: flex-start !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  padding: 0 !important;
+  position: relative !important;
+}
+
+/* Banner takes up remaining space on first row */
+.user.home div.primary.header.module h2.heading,
+.user.profile div.primary.header.module h2.heading {
+  flex: 1 !important;
+}
+
+/* Actions list drops to its own row below the banner */
+.user.home div.primary.header.module ul.actions,
+.user.profile div.primary.header.module ul.actions {
+  flex-basis: 100% !important;
+  margin-top: 0.5em !important;
+  text-align: right !important;
+}
+
+/* Constrain the outer profile wrapper */
+div.user.home,
+div.user.profile {
+  max-width: 100% !important;
+  overflow: visible !important;
+}
+
+/* Constrain children that AO3 gives a fixed wide width */
+.user.home .wrapper,
+.user.profile .wrapper,
+.user.home .bio.module,
+.user.profile .bio.module {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Bio module */
+.user.home .bio.module,
+.user.profile .bio.module {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--accent-2) !important;
+  border-radius: var(--radius-md) !important;
+  border-top: 4px solid var(--accent-1) !important;
+  box-shadow: 0 2px 10px rgba(139,45,160,0.1) !important;
+  margin-bottom: 1.2em !important;
+  padding: 1.2em 1.4em !important;
+}
+
+/* Username banner — soft lilac gradient */
+.user.home h2.heading,
+.user.profile h2.heading {
+  background: linear-gradient(135deg, var(--panel-bg) 0%, #e8d0f0 60%, #d0a8e0 100%) !important;
+  border-bottom: none !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 3px 14px rgba(139,45,160,0.15) !important;
+  color: var(--text) !important;
+  flex: 1 !important;
+  font-size: 1.8em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  margin-bottom: 0.75em !important;
+  padding: 12px 24px !important;
+  text-align: right !important;
+  text-shadow: none !important;
+}
+
+/* Icon — sits inline with the banner via flexbox */
+#main .user.home .icon,
+#main .user.profile .icon,
+#main .userpic {
+  background: var(--panel-bg) !important;
+  border: 3px solid var(--accent-2) !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow:
+    0 0 0 4px rgba(217,126,200,0.35),
+    0 0 18px rgba(139,45,160,0.4),
+    0 4px 16px rgba(42,16,58,0.18) !important;
+  display: block !important;
+  flex-shrink: 0 !important;
+  margin-right: 1em !important;
+  overflow: hidden !important;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease !important;
+  z-index: 2 !important;
+}
+
+/* Hover: amethyst glow strengthens */
+#main .user.home .icon:hover,
+#main .user.profile .icon:hover,
+#main .userpic:hover {
+  border-color: var(--accent-1) !important;
+  box-shadow:
+    0 0 0 4px rgba(139,45,160,0.45),
+    0 0 28px rgba(139,45,160,0.65),
+    0 4px 20px rgba(42,16,58,0.22) !important;
+}
+
+/* The image itself */
+#main .user.home .icon img,
+#main .user.profile .icon img,
+#main .userpic img {
+  border-radius: var(--radius-sm) !important;
+  display: block !important;
+  filter: brightness(1.04) saturate(1.08) !important;
+  height: auto !important;
+  max-width: 100% !important;
+}
+
+/* If the icon is a link, strip the underline border */
+#main .user.home .icon a,
+#main .user.profile .icon a,
+#main .userpic a {
+  border-bottom: none !important;
+  display: block !important;
+}
+
+/* Default / placeholder state */
+#main .user.home .icon:empty,
+#main .user.profile .icon:empty,
+#main .userpic:empty {
+  background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent-1-light) 100%) !important;
+  height: 100px !important;
+  min-width: 100px !important;
+  width: 100px !important;
+}
+
+/* Profile metadata box */
+.user.home .wrapper,
+.user.profile .wrapper {
+  background: linear-gradient(135deg, #f0ecff 0%, #e8d8f5 100%) !important;
+  border: 1px solid var(--accent-2) !important;
+  border-left: 5px solid var(--accent-1) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 2px 10px rgba(139,45,160,0.12) !important;
+  box-sizing: border-box !important;
+  margin-bottom: 1.2em !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  padding: 1em 1.4em !important;
+}
+
+.user.home .wrapper dl.meta,
+.user.profile .wrapper dl.meta {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.user.home .wrapper dl.meta dt,
+.user.profile .wrapper dl.meta dt {
+  color: var(--accent-1) !important;
+}
+
+.user.home .wrapper dl.meta dd,
+.user.profile .wrapper dl.meta dd {
+  color: var(--text) !important;
+}
+
+.user.home .wrapper dl.meta dd a,
+.user.home .wrapper dl.meta dd a:visited,
+.user.profile .wrapper dl.meta dd a,
+.user.profile .wrapper dl.meta dd a:visited {
+  color: var(--accent-1-mid) !important;
+  font-style: italic !important;
+}
+
+.user.home .wrapper dl.meta dd a:hover,
+.user.profile .wrapper dl.meta dd a:hover {
+  color: var(--accent-1-dark) !important;
+  text-decoration: underline !important;
+}
+
+.user.home .bio.module h3.heading,
+.user.profile .bio.module h3.heading {
+  border-bottom: 1px solid #e0d0f0 !important;
+  color: var(--accent-1) !important;
+  font-size: 1.1em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  margin-bottom: 0.75em !important;
+  padding-bottom: 0.4em !important;
+  text-transform: uppercase !important;
+}
+
+.user.home .bio.module blockquote.userstuff,
+.user.profile .bio.module blockquote.userstuff {
+  background: linear-gradient(135deg, #f5e8f8 0%, #f0e0f5 100%) !important;
+  border-left: 3px solid var(--accent-2) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text) !important;
+  margin: 0 !important;
+  padding: 0.85em 1.1em !important;
+}
+
+
+/* ============================================
+   18. READING HISTORY
+   ============================================ */
+
+/* 'Last visited X days ago' badge */
+.reading h4.viewed {
+  background: linear-gradient(135deg, #2a1545 0%, var(--accent-1) 60%, var(--accent-2) 100%) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 6px rgba(139,45,160,0.2) !important;
+  color: var(--text-on-dark) !important;
+  display: inline-block !important;
+  font-size: 0.78em !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.02em !important;
+  padding: 3px 8px !important;
+}
+
+.reading h4.viewed a,
+.reading h4.viewed a:visited {
+  color: var(--text-on-dark) !important;
+}
+
+.reading h4.viewed a:hover {
+  color: #ede0ee !important;
+  text-decoration: underline !important;
+}
+
+/* Reading history blurb footer bar */
+li.reading.work.blurb.group div.user.module.group {
+  align-items: center !important;
+  background: linear-gradient(135deg, #fdf8fe 0%, #f5eafa 100%) !important;
+  border-radius: 0 0 6px 6px !important;
+  border-top: 1px solid rgba(217,126,200,0.3) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  font-size: 0.75em !important;
+  justify-content: flex-start !important;
+  margin-top: 0.75em !important;
+  padding: 0.5em 0.75em !important;
+}
+
+/* "Last visited:" heading — plain text */
+li.reading.work.blurb.group div.user.module.group h4.viewed.heading {
+  background: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--text-muted) !important;
+  display: inline !important;
+  font-size: 0.75em !important;
+  font-weight: 400 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+li.reading.work.blurb.group div.user.module.group h4.viewed.heading span {
+  color: var(--accent-1-light) !important;
+  font-weight: 700 !important;
+}
+
+/* Destructive action — blush-rose pill that darkens on hover */
+li.reading.work.blurb.group div.user.module.group input[type="submit"] {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background: linear-gradient(135deg, #f5d5e8 0%, #eabfd8 100%) !important;
+  border: 1px solid #d888ac !important;
+  border-radius: 20px !important;
+  color: var(--accent-1-dark) !important;
+  cursor: pointer !important;
+  font-size: 0.75em !important;
+  font-weight: 600 !important;
+  margin-left: 1em !important;
+  padding: 3px 12px 5px !important;
+  transition: background 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+li.reading.work.blurb.group div.user.module.group input[type="submit"]:hover {
+  background: linear-gradient(135deg, #e8a0c0 0%, #d888ac 100%) !important;
+  border-color: var(--accent-1-dark) !important;
+  box-shadow: 0 2px 8px rgba(139,45,160,0.25) !important;
+  color: #ffffff !important;
+}
+
+li.reading.work.blurb.group div.user.module.group ul.actions {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+li.reading.work.blurb.group div.user.module.group ul.actions li {
+  display: inline-block !important;
+  margin: 0 !important;
+}
+
+
+/* ============================================
+   19. MISCELLANEOUS
+   ============================================ */
+
+/* --- FAQ / help pages — reset link backgrounds ---
+   The fandom tag rule bleeds onto plain list links on these pages.
+   Page class is: #main.system.docs.support.faq.index
+   Links are: ul.faq.index.group li.category > a */
+#main.faq ul.faq.index.group li a,
+#main.faq ul.faq.index.group li a:visited,
+#main.system.docs ul.faq.index.group li a,
+#main.system.docs ul.faq.index.group li a:visited,
+.userstuff ul.faq.index.group li a,
+.userstuff ul.faq.index.group li a:visited {
+  background: none !important;
+  border: none !important;
+  border-bottom: 1px solid var(--accent-2) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--accent-1) !important;
+  display: inline !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Custom scrollbar — Chromium/WebKit only. */
+::-webkit-scrollbar { width: 8px !important; }
+::-webkit-scrollbar-track { background: var(--panel-bg) !important; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-1) 0%, var(--accent-2) 100%) !important;
+  border-radius: var(--radius-sm) !important;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--accent-1) !important; }
+
+/* Inline code and code blocks */
+pre, code {
+  background: linear-gradient(160deg, #fdf8fe 0%, #f5e8f8 100%) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text) !important;
+  font-size: 0.9em !important;
+  padding: 2px 6px !important;
+}
+
+/* Block-level pre — amethyst left accent */
+pre {
+  border-left: 3px solid var(--accent-1) !important;
+  overflow-x: auto !important;
+  padding: 1em 1.2em !important;
+  position: relative !important;
+  white-space: pre-wrap !important;
+}
+
+/* Teal top-stripe echoing the gradient palette */
+pre::before {
+  background: linear-gradient(90deg, #181830 0%, var(--accent-1) 50%, var(--accent-2) 100%) !important;
+  border-radius: 0 8px 0 0 !important;
+  content: "" !important;
+  height: 2px !important;
+  left: 0 !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+}
+
+/* Required field labels */
+dt.required > label,
+dt.required > label:first-child {
+  color: var(--accent-1-dark) !important;
+  font-weight: 700 !important;
+}
+
+legend.required {
+  color: var(--text-on-dark) !important;
+}
+
+/* "* Required information" notice */
+p.required.notice {
+  background: linear-gradient(135deg, var(--btn-dark-start) 0%, var(--btn-end) 60%, var(--btn-dark-end) 100%) !important;
+  border-left: none !important;
+  border-radius: var(--radius-pill) !important;
+  color: var(--text-on-dark) !important;
+  display: inline-block !important;
+  font-size: 0.85em !important;
+  font-weight: 700 !important;
+  padding: 3px 14px !important;
+}
+
+/* Hide empty paragraphs in chapter text */
+#chapters p:empty,
+#workskin p:empty {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ============================================
+   20. FOOTER
+   ============================================ */
+
+/* Dark gradient footer — midnight navy → dark plum → amethyst.
+   Matches the header to bookend the page. */
+#footer {
+  background: linear-gradient(135deg, #181830 0%, #2a1545 50%, #8B2DA0 100%) !important;
+  border-top: var(--border-width) solid var(--accent-1) !important;
+  color: var(--accent-2) !important;
+  font-weight: 600 !important;
+}
+
+#footer a, #footer a:visited,
+#footer a:hover {
+  border-bottom: none !important;
+  color: var(--text-on-dark) !important;
+  text-decoration: none !important;
+}
+
+/* Fix "by the" text node alignment. */
+#footer .menu li,
+#footer .menu li a,
+#footer .menu li a:visited {
+  font-size: 0.875em !important;
+  line-height: 1.5 !important;
+  vertical-align: baseline !important;
+}
+
+/* Footer section headings */
+#footer .heading,
+#footer h2, #footer h3, #footer h4,
+#footer ul.navigation.actions li.module.group h4.heading {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(217,126,200,0.4) !important;
+  color: var(--text-on-dark) !important;
+}
+
+/* ============================================
+   21. Replace the AO3 Icons 2.0 - default color scheme
+   Based on "Replace the AO3 Icons 2.0"
+   by zerafinacss https://github.com/ZerafinaCSS/Replace-the-AO3-Icons-2.0
+   ============================================ */
+
+ul.required-tags,
+.bookmark .status span,
+.blurb .icon {
+  opacity: 1 !important; /* some public site skins like Reversi set the opacity of some icons to 0.9, which I want to prevent here */
+}
+
+/*========== ICONS FOR USERS, COLLECTIONS, TAGS etc. ==========*/
+/* have to use "content" instead of "background" to replace some of these icons, as they were coded differently in the default archive skin */
+
+/* default user icon */
+img[src$="/images/skins/iconsets/default/icon_user.png"] {
+  background:
+  #6e6e6e /* change icon color here */
+  content-box;
+  border: 1.5px solid #ddd; /* change border width and color here */
+  box-sizing: border-box;
+  content: url("https://zerafinacss.github.io/ao3/icons/user-default-01.png"); /* url of new icon */
+}
+
+/* anon comment icon */
+.comment .icon .anonymous {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/anon-01.png"), /* url of new icon */
+  #6e6e6e /* change background color here */
+  border-box;
+  background-size: cover;
+  border: 1.5px solid #00000025; /* change border width and color here */
+  box-sizing: border-box;
+}
+
+/* guest comment icon */
+.comment .icon .visitor {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/user-visitor-01.png"), /* url of new icon */
+  #6e6e6e /* change background color here */
+  border-box;
+  background-size: cover;
+  border: 1.5px solid #00000025; /* change border width and color here */
+  box-sizing: border-box;
+}
+
+/* default collection icon */
+img[src$="/images/skins/iconsets/default/icon_collection.png"] {
+  background:
+  linear-gradient(transparent, #ffffff50 45% 55%, transparent), /* subtle gradient */
+  #616c90 /* change background color here */
+  border-box;
+  border: 1.5px solid #00000025; /* change border width and color here */
+  box-sizing: border-box;
+  content: url("https://zerafinacss.github.io/ao3/icons/collection-01.png"); /* url of new icon */
+}
+
+/* tag icons */
+.tagset .primary .icon,
+.tag .primary .icon,
+.index .tagset .icon {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/tag-01.png"), /* url of new icon */
+  linear-gradient(transparent, #ffffff50 45% 55%, transparent), /* subtle gradient */
+  #900 /* change background color here */
+  border-box;
+  background-size: cover;
+  border: 1.5px solid #00000025; /* change border width and color here */
+  box-sizing: border-box;
+}
+
+/* icon for unrevealed works */
+.index .mystery .icon {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/anon-01.png"), /* url of new icon */
+  linear-gradient(transparent, #ffffff50 45% 55%, transparent) /* subtle gradient */
+  #616c90 /* change background color here */
+  content-box;
+  background-size: cover;
+  border: 1.5px solid #ddd; /* change width and color of outer border here */
+  box-shadow: inset 0 0 0 3px #fff; /* change width and color of inner border here */
+  box-sizing: border-box;
+}
+
+/* admin icon => seen on news posts */
+.admin .primary .icon {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/admin-01.png") /* url of new icon */
+  no-repeat,
+  linear-gradient(#ffffff40, transparent) /* subtle gradient */
+  #900 /* change background color here */
+  border-box;
+  background-size: cover;
+  border: 1.5px solid #00000099; /* change border width and color here */
+  box-sizing: border-box;
+}
+
+/* default icon for skins */
+.skins .primary .icon:not(:has(a .icon)),
+.index .skins .icon:not(:has(a .icon)) {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/skins-01.png"), /* url of new icon */
+  #900 /* change icon color here */
+  border-box;
+  background-size: cover;
+  border: 1.5px solid #ddd; /* change border width and color here */
+  box-sizing: border-box;
+}
+
+/*>========== CONTENT SYMBOLS ==========<*/
+
+/* sets the size of the symbols keys icons */
+#symbols-key dl img,
+#bookmark-symbols-key img {
+height: 0 !important;
+padding: 25px 0 0 25px;
+width: 0 !important;
+}
+
+/* sizing and borders for content symbols */
+.blurb ul.required-tags li a > span,
+.bookmark p.status a > span,
+#symbols-key dl img,
+#bookmark-symbols-key img {
+background-origin: border-box;
+background-size: cover;
+border: 1px solid; /* change border width here or delete this if you don't want the borders */
+box-sizing: border-box;
+}
+
+/* empty symbols boxes (no rating, category or warning) */
+.required-tags .rating-notrated,
+.required-tags .category-none,
+.required-tags .warning-no,
+.status .count,
+img[src$="/images/skins/iconsets/default/rating-notrated.png"],
+img[src$="/images/skins/iconsets/default/category-none.png"],
+img[src$="/images/skins/iconsets/default/warning-no.png"] {
+  background: #ffffffcc; /* change background color here */
+  color: #00000040; /* change border color here */
+}
+
+/*
+ * The following content symbols have transparent borders, allowing the background to show through.
+ * This automatically gives the icons borders that have a slightly darker color than the background color.
+ * You can replace the border color with any other rgb, rgba, or hex color, transparent or not.
+ */
+
+/*>>========== Rating ==========<<*/
+
+/* General Audiences */
+.required-tags .rating-general-audience,
+img[src$="/images/skins/iconsets/default/rating-general-audience.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/rating-gen-01.png"), /* url of new icon */
+  #8bc101; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Teen And Up Audiences */
+.required-tags .rating-teen,
+img[src$="/images/skins/iconsets/default/rating-teen.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/rating-teen-01.png"), /* url of new icon */
+  #f5ce00; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Mature */
+.required-tags .rating-mature,
+img[src$="/images/skins/iconsets/default/rating-mature.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/rating-mature-01.png"), /* url of new icon */
+  #ef851c; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Explicit */
+.required-tags .rating-explicit,
+img[src$="/images/skins/iconsets/default/rating-explicit.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/rating-explicit-01.png"), /* url of new icon */
+  #b0021f; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/*>>========== Relationships, pairings, orientations ==========<<*/
+
+/* F/F */
+.required-tags .category-femslash,
+img[src$="/images/skins/iconsets/default/category-femslash.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/category-ff-01.png"), /* url of new icon */
+  #b0021f; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* F/M */
+.required-tags .category-het,
+img[src$="/images/skins/iconsets/default/category-het.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/category-mf-01.png"), /* url of new icon */
+  #910679; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Gen */
+.required-tags .category-gen,
+img[src$="/images/skins/iconsets/default/category-gen.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/category-gen-01.png"), /* url of new icon */
+  #8bc101; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* M/M */
+.required-tags .category-slash,
+img[src$="/images/skins/iconsets/default/category-slash.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/category-mm-01.png"), /* url of new icon */
+  #0054d4; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Multi */
+.required-tags .category-multi,
+img[src$="/images/skins/iconsets/default/category-multi.png"] {
+  background:
+  conic-gradient(from 270deg, #8bc101 25%, #910679 25% 50%, #0054d4 50% 75%, #b0021f 75%); /* conic gradient with the colors of the relationship icons */
+  color: #0000001a; /* change border color here */
+}
+
+/* Other relationships */
+.required-tags .category-other,
+img[src$="/images/skins/iconsets/default/category-other.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/category-other-01.png"), /* url of new icon */
+  #000; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/*>>========== Content warnings ==========<<*/
+
+/* Author chose not to warn */
+.required-tags .warning-choosenotto,
+img[src$="/images/skins/iconsets/default/warning-choosenotto.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/warning-choosenotto-01.png"), /* url of new icon */
+  #ef851c; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Warnings apply */
+.required-tags .warning-yes,
+img[src$="/images/skins/iconsets/default/warning-yes.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/warning-yes-01.png"), /* url of new icon */
+  #b0021f; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* External work */
+.required-tags .external-work,
+img[src$="/images/skins/iconsets/default/warning-external-work.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/warning-external-work-01.png"), /* url of new icon */
+  #107cb9; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/*>>========== Completion status ==========<<*/
+
+/* uncomplete/unfulfilled */
+.required-tags .complete-no,
+img[src$="/images/skins/iconsets/default/complete-no.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/complete-no-01.png"), /* url of new icon */
+  #b0021f; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* completed/filled */
+.required-tags .complete-yes,
+img[src$="/images/skins/iconsets/default/complete-yes.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/complete-yes-01.png"), /* url of new icon */
+  #8bc101; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/*>>========== Bookmark symbols ==========<<*/
+
+/* Rec bookmark */
+.status .rec,
+img[src$="/images/skins/iconsets/default/bookmark-rec.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/bookmark-rec-01.png"), /* url of new icon */
+  #107cb9; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Public bookmark */
+.status .public,
+img[src$="/images/skins/iconsets/default/bookmark-public.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/bookmark-public-01.png"), /* url of new icon */
+  #107cb9; /* change background color here */
+  color: #0000001a; /* change border color here */
+}
+
+/* Private bookmark */
+.status .private,
+img[src$="/images/skins/iconsets/default/bookmark-private.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/bookmark-locked-01.png"), /* url of new icon */
+  #000; /* change lock color here */
+  color: #0000001a; /* change border color here */
+  font-size: 0;
+}
+
+/* fix private bookmark */
+.status .private .text {
+  background: none;
+  /* This seems to be the only bookmark icon where the background is put in the .text element instead of it's parent.
+   *  I want it to match the rest, so I'm hiding the background of the .text element. */
+}
+
+/* Hidden bookmark */
+.status .hidden,
+img[src$="/images/skins/iconsets/default/bookmark-hidden.png"] {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/bookmark-locked-01.png"), /* url of new icon */
+  #b0021f; /* change lock color here */
+  color: #0000001a; /* change border color here */
+}
+
+/*>========== RSS ICON ==========<*/
+
+/* hide old rss icon */
+a.rss span {
+  background: none;
+  padding: 0;
+}
+
+/* setup for the new rss icon */
+.actions li a.rss {
+  align-content: center;
+  align-items: center;
+  column-gap: 0.3em;
+  display: inline-flex;
+}
+
+/* new rss icon */
+.actions li a.rss::before {
+  background:
+  url("https://zerafinacss.github.io/ao3/icons/rss-01.png") /* url of new icon */
+  #ef851c; /* change background color here */
+  background-size: cover;
+  border: 1px solid var(--icon-border1);
+  border-radius: 2px;
+  box-sizing: border-box;
+  content: "";
+  height: 0.85em;
+  width: 0.85em;
+}
+
+/*>========== KUDOS ICON ==========<*/
+
+/* hide old kudos icon */
+p.kudos {
+  background: none;
+}
+
+/* new kudos icon */
+div:has(> p.kudos)::before {
+  background: url("https://zerafinacss.github.io/ao3/icons/kudos-01.png"); /* url of new icon */
+  background-size: cover;
+  content: "";
+  filter: invert(18%) sepia(86%) saturate(2463%) hue-rotate(345deg) brightness(88%) contrast(95%); /* adjust filter values to change color */
+  height: 55px;
+  position: absolute;
+  width: 55px;
+}
