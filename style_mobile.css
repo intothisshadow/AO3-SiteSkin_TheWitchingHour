@@ -1052,6 +1052,13 @@ li.reading.work.blurb.group div.user.module.group input[type="submit"] {
   right: auto !important;
 }
 
+/* ── News / admin page ───────────────────── */
+
+.admin .primary .icon {
+  height: 50px !important;
+  width: 50px !important;
+}
+
 /* ── Footer ───────────────────────────────── */
 
 #footer {
