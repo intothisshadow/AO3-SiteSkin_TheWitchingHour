@@ -1,29 +1,32 @@
 /*
- Theme Name: The Witching Hour (v2) — Mobile Add-on [AO3 Site Skin]
- Author: intothisshadow
- Author URI: https://www.so-obsessed.com
-
- ============================================
-
- HOW TO USE:
- 1. Make a new site skin with the The Witching Hour code (style_desktop.css in this same repository/zip.) and be sure to select "all" in the Media section. Save skin.
- 2. Make another new site skin with the code below, selecting "only screen and (max-width: 62em)" in the Media section, and then choose The Witching Hour as the parent skin. Save and active.
-
- ============================================
+ * Theme Name: The Witching Hour (v2) — Mobile Add-on [AO3 Site Skin]
+ * Author: intothisshadow
+ * Author URI: https://www.so-obsessed.com
+ *
+ * ============================================
+ *
+ * HOW TO USE:
+ * 1. Make a new site skin with the The Witching Hour code (style_desktop.css in this same repository/zip.) and be sure to select "all" in the Media section. Save skin.
+ * 2. Make another new site skin with the code below, selecting "only screen and (max-width: 62em)" in the Media section, and then choose The Witching Hour as the parent skin. Save and active.
+ *
+ * ============================================
  *
  * Structure:
- *   Section A — 62em and below (tablets, large phones)
- *   Section B — 42em and below (small phones)
+ * Section A — 62em and below (tablets, large phones)
+ * Section B — 42em and below (small phones)
  *
  * Apply in AO3 as a child skin of the main skin,
  * with each section wrapped in the appropriate
  * MEDIA query via the AO3 skin editor.
- * ============================================ */
+ * ============================================
+ */
 
 
-/* ============================================
-   A. 62EM AND BELOW
-   ============================================ */
+/*
+ * ============================================
+ * A. 62EM AND BELOW
+ * ============================================
+ */
 
 /* ── Global ───────────────────────────────── */
 
@@ -1111,8 +1114,10 @@ li.reading.work.blurb.group div.user.module.group input[type="submit"] {
   vertical-align: baseline !important;
 }
 
-/* Header nav and greeting — strip gradient pill, plain text on mobile.
-   Placed last in section A to win over the .actions a base rule. */
+/*
+ * Header nav and greeting — strip gradient pill, plain text on mobile.
+ * Placed last in section A to win over the .actions a base rule.
+ */
 #header .primary.navigation a,
 #header .primary.navigation a:visited,
 #greeting a,
@@ -1139,9 +1144,11 @@ li.reading.work.blurb.group div.user.module.group input[type="submit"] {
 }
 
 
-/* ============================================
-   B. 42EM AND BELOW
-   ============================================ */
+/*
+ * ============================================
+ * B. 42EM AND BELOW
+ * ============================================
+ */
 
 /* ── Global ───────────────────────────────── */
 
