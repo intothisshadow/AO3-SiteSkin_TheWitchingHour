@@ -2,7 +2,7 @@
  * Theme Name: The Witching Hour (v2) — Mobile Add-on [AO3 Site Skin]
  * Author: intothisshadow
  * Author URI: https://www.so-obsessed.com
- *
+ * Last Updated: 2026-Apr-16 05:12 GMT
  * ============================================
  *
  * HOW TO USE:
@@ -496,14 +496,24 @@ form.inbox {
 .javascript form.filters {
   background: linear-gradient(180deg, #f8f0fa 0%, #F2EBF0 100%) !important;
   border-left: 3px solid #8B2DA0 !important;
+  bottom: 0 !important;
   box-shadow: -4px 0 16px rgba(24,24,48,0.35) !important;
+  height: 100% !important;
   margin: 0 !important;
   max-width: 95vw !important;
-  position: absolute !important;
-  right: -16em !important;
+  overflow-y: auto !important;
+  position: fixed !important;
+  right: -100vw !important;
   top: 0 !important;
+  transition: right 0.2s ease !important;
   width: 16em !important;
   z-index: 400 !important;
+}
+
+/* When the filter panel is open — slide it into view */
+.filtering form.filters,
+.javascript .filtering form.filters {
+  right: 0 !important;
 }
 
 .javascript .filters fieldset {
@@ -518,6 +528,7 @@ form.inbox {
   position: relative !important;
 }
 
+/* Shift page content left when filters open */
 .filtering {
   right: 14em !important;
 }
